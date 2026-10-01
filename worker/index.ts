@@ -106,7 +106,9 @@ async function fetchActions(product: Product, repo: string, env: Env): Promise<R
 
 async function fetchAppStore(product: Product, appId: string): Promise<ReleaseInfo> {
   const pageUrl = appStoreUrl(appId);
-  const res = await fetch(`https://itunes.apple.com/lookup?id=${appId}`, { headers: UPSTREAM_HEADERS });
+  // The storefront-scoped path is required: from Workers the plain /lookup
+  // endpoint answers 403, while /cn/lookup returns the listing.
+  const res = await fetch(`https://itunes.apple.com/cn/lookup?id=${appId}`, { headers: UPSTREAM_HEADERS });
   if (!res.ok) return { status: 'error', error: `App Store lookup responded ${res.status}`, pageUrl };
   const data = (await res.json()) as {
     results: { version: string; currentVersionReleaseDate?: string; trackViewUrl: string }[];
