@@ -184,8 +184,53 @@ h1 span {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
-  margin-top: 36px;
+  gap: 14px;
+  margin-top: 40px;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 132px;
+  padding: 24px 8px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    border-color 0.15s,
+    transform 0.15s;
+}
+
+.tile:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.tile.is-detected {
+  order: -1;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+/* No direct download yet: the tile leads to the releases page instead. */
+.tile.is-fallback {
+  border-style: dashed;
+  color: var(--muted);
+}
+
+.platform-icon {
+  width: 44px;
+  height: 44px;
+}
+
+.platform-icon.android {
+  color: #3ddc84;
 }
 
 .btn {
@@ -481,6 +526,22 @@ h2 {
     padding-block: 44px 60px;
   }
 
+  .hero-downloads {
+    gap: 10px;
+  }
+
+  .tile {
+    width: 100px;
+    padding: 18px 4px 14px;
+    gap: 12px;
+    font-size: 0.92rem;
+  }
+
+  .platform-icon {
+    width: 36px;
+    height: 36px;
+  }
+
   .card {
     padding: 20px;
   }
@@ -493,6 +554,10 @@ h2 {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .tile {
+    transition: none;
   }
 }
 

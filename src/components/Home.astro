@@ -1,5 +1,6 @@
 ---
 import Page from '../layouts/Page.astro';
+import PlatformIcon from './PlatformIcon.astro';
 import { PRODUCTS, releasesPageUrl, repoUrl } from '../data/products';
 import { dicts, type Locale } from '../i18n';
 
@@ -11,12 +12,12 @@ const { locale } = Astro.props;
 const t = dicts[locale];
 
 const heroPlatforms = [
-  { platform: 'android', label: 'Android', product: 'nagram-android' },
-  { platform: 'ios', label: 'iOS', product: 'nagram-ios' },
-  { platform: 'windows', label: 'Windows', product: 'nagram-desktop' },
-  { platform: 'macos', label: 'macOS', product: 'nagram-desktop' },
-  { platform: 'linux', label: 'Linux', product: 'nagram-desktop' },
-];
+  { platform: 'android', label: 'Android', icon: 'android', product: 'nagram-android' },
+  { platform: 'ios', label: 'iOS', icon: 'apple', product: 'nagram-ios' },
+  { platform: 'windows', label: 'Windows', icon: 'windows', product: 'nagram-desktop' },
+  { platform: 'macos', label: 'macOS', icon: 'apple', product: 'nagram-desktop' },
+  { platform: 'linux', label: 'Linux', icon: 'linux', product: 'nagram-desktop' },
+] as const;
 
 const productById = Object.fromEntries(PRODUCTS.map((p) => [p.id, p]));
 
@@ -39,13 +40,14 @@ const productById = Object.fromEntries(PRODUCTS.map((p) => [p.id, p]));
         {
           heroPlatforms.map((h) => (
             <a
-              class="btn"
+              class="tile"
               href={`/download/${h.platform}`}
               data-dl={h.platform}
               data-product={h.product}
               data-fallback={releasesPageUrl(productById[h.product])}
             >
-              {h.label}
+              <PlatformIcon name={h.icon} />
+              <span>{h.label}</span>
             </a>
           ))
         }
