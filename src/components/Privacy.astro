@@ -1,0 +1,37 @@
+---
+import Page from '../layouts/Page.astro';
+import { dicts, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const p = dicts[locale].privacy;
+const telegramPolicy = 'https://telegram.org/privacy';
+---
+
+<Page locale={locale} page="privacy/" title={`${p.title} · Nagram`} description={p.description}>
+  <main class="subpage prose">
+    <h1>{p.title}</h1>
+    <p class="updated">{p.updated}</p>
+    <p>{p.intro}</p>
+    <p>{p.telegramPolicy} <a href={telegramPolicy}>{telegramPolicy}</a></p>
+    {
+      p.sections.map((s) => (
+        <section>
+          <h2>{s.title}</h2>
+          {s.body.map((text) => (
+            <p>{text}</p>
+          ))}
+        </section>
+      ))
+    }
+    <section>
+      <h2>{p.contact.title}</h2>
+      <p>
+        {p.contact.body} <a href="https://t.me/nagram_group">{p.contact.link}</a>
+      </p>
+    </section>
+  </main>
+</Page>

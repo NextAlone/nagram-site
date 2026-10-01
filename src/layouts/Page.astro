@@ -71,6 +71,9 @@ const links = {
         <p>{t.footer.licenseBody}</p>
       </div>
     </div>
-    <p class="disclaimer">{t.footer.disclaimer}</p>
+    <p class="disclaimer">
+      {t.footer.disclaimer}
+      <a href={localePath(locale, 'privacy/')}>{t.footer.privacy}</a>
+    </p>
   </footer>
 </Base>

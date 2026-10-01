@@ -91,6 +91,56 @@ export const en: Dict = {
       nnngram: ['Chat', 'Nnngram settings'],
     },
   },
+  privacy: {
+    title: 'Nagram Privacy Policy',
+    description: 'Privacy policy for the Nagram client applications and this website.',
+    updated: 'Last updated: October 1, 2026',
+    intro:
+      "Nagram is a client application used to access Telegram. Telegram's Privacy Policy applies to Telegram accounts, Telegram services, messages, contacts, cloud storage, and other data processed by Telegram.",
+    telegramPolicy: "You can review Telegram's Privacy Policy at",
+    sections: [
+      {
+        title: 'Scope',
+        body: [
+          "This policy covers the Nagram client applications themselves and this website. When you use Nagram to connect to Telegram, your use of Telegram services is governed by Telegram's own terms and privacy practices.",
+        ],
+      },
+      {
+        title: 'Data Collection',
+        body: [
+          "Nagram does not operate a separate messaging service. It is designed to work as a Telegram client. Any account, message, contact, media, or cloud data handled through Telegram is subject to Telegram's Privacy Policy.",
+        ],
+      },
+      {
+        title: 'App Functionality',
+        body: [
+          'Nagram may store app preferences and local settings on your device to provide normal client functionality. These local settings are used by the app and are not a separate Telegram account database.',
+        ],
+      },
+      {
+        title: 'Third-Party Services',
+        body: [
+          "Because Nagram connects to Telegram, Telegram is the primary third-party service involved in account and messaging functionality. Please review Telegram's policy for details about how Telegram processes data.",
+          'Some optional features send content to a service that you choose and configure, and only when you use them: translation providers, large language model endpoints and speech-to-text services receive the text or audio you ask them to process. Settings sync, where available, uses your own iCloud or Telegram cloud storage. These services process data under their own privacy policies.',
+        ],
+      },
+      {
+        title: 'This Website',
+        body: [
+          'This website sets no cookies and loads no analytics or advertising scripts. It is hosted on Cloudflare, which processes technical request data such as IP addresses in order to deliver the site. Download links lead to GitHub, the App Store, TestFlight or Telegram, each of which applies its own privacy policy.',
+        ],
+      },
+      {
+        title: 'Changes',
+        body: ["This page may be updated if Nagram's privacy practices change or if additional services are introduced."],
+      },
+    ],
+    contact: {
+      title: 'Contact',
+      body: 'For questions about this policy, contact the Nagram project maintainer through the official project support channel:',
+      link: 'Nagram group',
+    },
+  },
   release: {
     loading: 'Fetching version info…',
     unavailable: 'Version info unavailable',
@@ -108,6 +158,7 @@ export const en: Dict = {
     nnngramChannel: 'Nnngram channel',
     code: 'Source',
     license: 'License',
+    privacy: 'Privacy policy',
     licenseBody:
       'Nagram Android and Nagram Desktop are released under GPL-3.0, Nnngram under GPL-2.0. Upstream and third-party components in Nagram iOS remain under their own licenses. The Nagram name and project identity belong to NextAlone and the app icon artwork is copyright MaitungTM; neither is licensed with the source code.',
     disclaimer:

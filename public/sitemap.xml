@@ -30,4 +30,14 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://nagram.app/screenshots/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://nagram.app/en/screenshots/" />
   </url>
+  <url>
+    <loc>https://nagram.app/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://nagram.app/privacy/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://nagram.app/en/privacy/" />
+  </url>
+  <url>
+    <loc>https://nagram.app/en/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://nagram.app/privacy/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://nagram.app/en/privacy/" />
+  </url>
 </urlset>

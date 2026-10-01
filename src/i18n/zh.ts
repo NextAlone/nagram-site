@@ -91,6 +91,56 @@ export const zh: Dict = {
       nnngram: ['聊天界面', 'Nnngram 设置'],
     },
   },
+  privacy: {
+    title: 'Nagram 隐私政策',
+    description: 'Nagram 客户端与本网站的隐私政策。',
+    updated: '最后更新：2026 年 10 月 1 日',
+    intro:
+      'Nagram 是用于访问 Telegram 的客户端应用。Telegram 账号、Telegram 服务、消息、联系人、云端存储以及其他由 Telegram 处理的数据，适用 Telegram 的隐私政策。',
+    telegramPolicy: 'Telegram 的隐私政策见',
+    sections: [
+      {
+        title: '适用范围',
+        body: [
+          '本政策适用于 Nagram 客户端应用本身以及本网站。当你使用 Nagram 连接 Telegram 时，你对 Telegram 服务的使用受 Telegram 自身的条款与隐私做法约束。',
+        ],
+      },
+      {
+        title: '数据收集',
+        body: [
+          'Nagram 不运营独立的消息服务，它只是一个 Telegram 客户端。经由 Telegram 处理的账号、消息、联系人、媒体或云端数据，均适用 Telegram 的隐私政策。',
+        ],
+      },
+      {
+        title: '应用功能',
+        body: [
+          '为提供正常的客户端功能，Nagram 可能在你的设备上保存应用偏好和本地设置。这些本地设置仅供应用使用，并不是另一份 Telegram 账号数据库。',
+        ],
+      },
+      {
+        title: '第三方服务',
+        body: [
+          '由于 Nagram 连接的是 Telegram，账号与消息功能涉及的主要第三方服务就是 Telegram。Telegram 如何处理数据，请查阅其隐私政策。',
+          '部分可选功能会把内容发送给由你选择并配置的服务，且仅在你使用这些功能时发生：翻译服务、大模型接口和语音转文字服务会收到你要求处理的文本或音频。设置同步（如有）使用你自己的 iCloud 或 Telegram 云端存储。这些服务按各自的隐私政策处理数据。',
+        ],
+      },
+      {
+        title: '本网站',
+        body: [
+          '本网站不设置 Cookie，也不加载统计或广告脚本。网站托管在 Cloudflare，为了提供访问，Cloudflare 会处理 IP 地址等技术性请求数据。下载链接指向 GitHub、App Store、TestFlight 或 Telegram，它们各自适用自己的隐私政策。',
+        ],
+      },
+      {
+        title: '政策变更',
+        body: ['如果 Nagram 的隐私做法发生变化，或引入了新的服务，本页面可能会更新。'],
+      },
+    ],
+    contact: {
+      title: '联系方式',
+      body: '如对本政策有疑问，请通过官方支持渠道联系 Nagram 项目维护者：',
+      link: 'Nagram 群组',
+    },
+  },
   release: {
     loading: '正在获取版本信息…',
     unavailable: '无法获取版本信息',
@@ -108,6 +158,7 @@ export const zh: Dict = {
     nnngramChannel: 'Nnngram 频道',
     code: '源码',
     license: '许可',
+    privacy: '隐私政策',
     licenseBody:
       'Nagram Android 与 Nagram Desktop 以 GPL-3.0 发布，Nnngram 以 GPL-2.0 发布。Nagram iOS 中的上游与第三方组件继续适用各自的许可。Nagram 名称与项目标识归 NextAlone 所有，应用图标版权归 MaitungTM 所有，不随源码许可授权。',
     disclaimer:

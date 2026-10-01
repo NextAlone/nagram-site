@@ -472,7 +472,8 @@ h2 {
   }
 
   .site-header nav {
-    gap: 14px;
+    flex-wrap: wrap;
+    gap: 8px 14px;
     font-size: 0.9rem;
   }
 
@@ -583,4 +584,22 @@ h2 {
   .feature-table thead th {
     font-size: 0.62rem;
   }
+}
+
+.prose > * {
+  max-width: 46rem;
+}
+
+.prose p {
+  margin-top: 14px;
+}
+
+.prose h2 {
+  margin-top: 36px;
+  font-size: 1.3rem;
+}
+
+.prose .updated {
+  color: var(--muted);
+  font-size: 0.92rem;
 }

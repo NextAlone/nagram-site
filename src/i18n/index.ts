@@ -28,6 +28,15 @@ export interface Dict {
     footnote: string;
   };
   screenshots: { title: string; description: string; lead: string; pending: string; slots: Record<ProductId, string[]> };
+  privacy: {
+    title: string;
+    description: string;
+    updated: string;
+    intro: string;
+    telegramPolicy: string;
+    sections: { title: string; body: string[] }[];
+    contact: { title: string; body: string; link: string };
+  };
   release: {
     loading: string;
     unavailable: string;
@@ -45,6 +54,7 @@ export interface Dict {
     nnngramChannel: string;
     code: string;
     license: string;
+    privacy: string;
     licenseBody: string;
     disclaimer: string;
   };
