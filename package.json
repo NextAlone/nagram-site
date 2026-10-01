@@ -11,7 +11,8 @@
     "preview": "astro build && wrangler dev",
     "types": "wrangler types",
     "check": "wrangler types && tsc --noEmit && tsc -p worker",
-    "deploy": "astro build && wrangler deploy"
+    "deploy": "astro build && wrangler deploy",
+    "deploy:redirect": "wrangler deploy --config redirect/wrangler.jsonc"
   },
   "devDependencies": {
     "astro": "^7.3.5",
