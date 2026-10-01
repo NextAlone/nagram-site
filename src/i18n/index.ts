@@ -15,7 +15,7 @@ export interface Dict {
     lead: string;
     source: string;
     version: string;
-    items: Record<ProductId, { platform: string; tagline: string; features: string[] }>;
+    items: Record<ProductId, { platform: string; tagline: string }>;
   };
   features: { title: string; lead: string; items: { title: string; body: string }[] };
   featureList: {

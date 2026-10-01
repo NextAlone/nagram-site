@@ -327,40 +327,13 @@ h2 {
   color: var(--muted);
 }
 
-.feature-list {
-  flex: 1;
-  margin-top: 18px;
-  padding-top: 18px;
-  border-top: 1px solid var(--border);
-  font-size: 0.95rem;
-}
-
-.feature-list li {
-  position: relative;
-  padding-left: 18px;
-}
-
-.feature-list li + li {
-  margin-top: 7px;
-}
-
-.feature-list li::before {
-  content: '';
-  position: absolute;
-  left: 2px;
-  top: 0.68em;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-}
-
 .card-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 10px 16px;
-  margin-top: 24px;
+  margin-top: auto;
+  padding-top: 22px;
 }
 
 .text-link {

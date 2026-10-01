@@ -78,9 +78,6 @@ const productById = Object.fromEntries(PRODUCTS.map((p) => [p.id, p]));
                   <span class="version-value" data-version={p.id} />
                   <noscript>{t.release.unavailable}</noscript>
                 </p>
-                <ul class="feature-list">
-                  {item.features.map((f) => <li>{f}</li>)}
-                </ul>
                 <div class="card-actions">
                   {
                     p.downloads.map((d) => (
