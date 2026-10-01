@@ -26,7 +26,6 @@ export const en: Dict = {
         platform: 'Android 5.0 or later',
         tagline: 'The Android client based on NekoX, and the most complete of the family.',
         features: [
-          'Up to 128 login accounts',
           'Custom DoH and IP version strategy',
           'Combine messages, invert reply, quick reply from the long-press menu',
           'Undo and redo in the input field, editable text styles',

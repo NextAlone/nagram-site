@@ -173,10 +173,6 @@ export const FEATURE_GROUPS: FeatureGroup[] = [
         zh: 'iOS 通过 iCloud 同步，其余为文件或云端备份',
         en: 'iCloud sync on iOS, file or cloud backup elsewhere',
       }),
-      row('更多同时登录的账号', 'More simultaneous accounts', 'AIN', {
-        zh: 'Android 128 个，iOS 10 个，Nnngram 8 个',
-        en: '128 on Android, 10 on iOS, 8 on Nnngram',
-      }),
       row('扫码登录', 'QR code login', 'AIN'),
       row('按账号设置密码', 'Per-account passcode', 'AN'),
       row('会话导出与导入', 'Export and import sessions', 'I'),

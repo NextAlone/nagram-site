@@ -26,7 +26,6 @@ export const zh: Dict = {
         platform: 'Android 5.0 及以上',
         tagline: '基于 NekoX 的 Android 客户端，功能最全的一端。',
         features: [
-          '最多 128 个登录账号',
           '自定义 DoH 与 IP 版本策略',
           '合并消息、反向回复、长按菜单快速回复',
           '输入框撤销与重做、可编辑的文字样式',
