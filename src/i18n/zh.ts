@@ -24,7 +24,7 @@ export const zh: Dict = {
     items: {
       'nagram-android': {
         platform: 'Android 5.0 及以上',
-        tagline: '功能最完整的一端，基于 NekoX。稳定版发布在 GitHub，测试版发布在 Telegram 频道。',
+        tagline: '功能最完整的一端，基于 Telegram Android 官方源码。稳定版发布在 GitHub，测试版发布在 Telegram 频道。',
       },
       'nagram-ios': {
         platform: 'iOS 15.0 及以上',

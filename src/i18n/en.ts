@@ -24,7 +24,7 @@ export const en: Dict = {
     items: {
       'nagram-android': {
         platform: 'Android 5.0 or later',
-        tagline: 'The most complete client of the family, based on NekoX. Stable builds are on GitHub, betas in the Telegram channel.',
+        tagline: 'The most complete client of the family, based on the official Telegram Android source. Stable builds are on GitHub, betas in the Telegram channel.',
       },
       'nagram-ios': {
         platform: 'iOS 15.0 or later',
