@@ -43,7 +43,7 @@ Nagram iOS 使用 App Store 上架页的 6 张宣传图（单一版本）。其�
 
 `.github/workflows/deploy.yml` 在推送到 `main` 时构建并执行 `wrangler deploy`，需要仓库 secrets `CLOUDFLARE_API_TOKEN` 与 `CLOUDFLARE_ACCOUNT_ID`。
 
-`nagram.dev` 由 `redirect/` 下的另一个小 Worker 301 跳转到 `nagram.app`（保留路径和查询参数）。它不在自动部署里，改动后用 `pnpm deploy:redirect` 手动部署。
+`nagram.dev`、`www.nagram.app`、`www.nagram.dev` 由 `redirect/` 下的另一个小 Worker 301 跳转到 `nagram.app`（保留路径和查询参数）。它不在自动部署里，改动后用 `pnpm deploy:redirect` 手动部署。
 
 ## 品牌
 

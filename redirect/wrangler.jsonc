@@ -4,7 +4,12 @@
   "main": "./index.ts",
   "compatibility_date": "2026-10-01",
   "workers_dev": false,
-  // A zone route, for the same reason as the main site: the zone already has
-  // proxied apex records.
-  "routes": [{ "pattern": "nagram.dev/*", "zone_name": "nagram.dev" }]
+  "routes": [
+    // A zone route, for the same reason as the main site: the zone already has
+    // proxied apex records.
+    { "pattern": "nagram.dev/*", "zone_name": "nagram.dev" },
+    // The www hosts have no DNS records, so custom domains create them.
+    { "pattern": "www.nagram.app", "custom_domain": true },
+    { "pattern": "www.nagram.dev", "custom_domain": true }
+  ]
 }
