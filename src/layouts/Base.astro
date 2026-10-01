@@ -5,13 +5,17 @@ import { dicts, localePath, type Locale } from '../i18n';
 interface Props {
   locale: Locale;
   title?: string;
+  description?: string;
+  // Path below the locale root, e.g. 'features/'.
+  page?: string;
   noindex?: boolean;
 }
 
-const { locale, title, noindex = false } = Astro.props;
+const { locale, title, description, page = '', noindex = false } = Astro.props;
 const t = dicts[locale];
 const pageTitle = title ?? t.meta.title;
-const canonical = new URL(localePath(locale), Astro.site).href;
+const pageDescription = description ?? t.meta.description;
+const canonical = new URL(localePath(locale, page), Astro.site).href;
 const ogImage = new URL('/icons/nagram.png', Astro.site).href;
 ---
 
@@ -22,11 +26,11 @@ const ogImage = new URL('/icons/nagram.png', Astro.site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
     <title>{pageTitle}</title>
-    <meta name="description" content={t.meta.description} />
+    <meta name="description" content={pageDescription} />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
-    <link rel="alternate" hreflang="zh-CN" href={new URL('/', Astro.site).href} />
-    <link rel="alternate" hreflang="en" href={new URL('/en/', Astro.site).href} />
-    <link rel="alternate" hreflang="x-default" href={new URL('/', Astro.site).href} />
+    <link rel="alternate" hreflang="zh-CN" href={new URL(localePath('zh', page), Astro.site).href} />
+    <link rel="alternate" hreflang="en" href={new URL(localePath('en', page), Astro.site).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(localePath('zh', page), Astro.site).href} />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#f6f8fb" media="(prefers-color-scheme: light)" />
@@ -34,13 +38,13 @@ const ogImage = new URL('/icons/nagram.png', Astro.site).href;
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Nagram" />
     <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={t.meta.description} />
+    <meta property="og:description" content={pageDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content={t.ogLocale} />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={pageTitle} />
-    <meta name="twitter:description" content={t.meta.description} />
+    <meta name="twitter:description" content={pageDescription} />
     <meta name="twitter:image" content={ogImage} />
   </head>
   <body>

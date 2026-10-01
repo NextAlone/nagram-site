@@ -1,0 +1,62 @@
+---
+import { existsSync } from 'node:fs';
+import Page from '../layouts/Page.astro';
+import { PRODUCTS } from '../data/products';
+import { dicts, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = dicts[locale];
+
+// A slot renders a single image when public/screenshots has one without a theme
+// suffix, a light/dark pair when both variants exist, and a placeholder otherwise.
+const shots = PRODUCTS.map((p) => ({
+  product: p,
+  portrait: p.id !== 'nagram-desktop',
+  slots: t.screenshots.slots[p.id].map((caption, i) => {
+    const base = `/screenshots/${p.id}-${i + 1}`;
+    const single = existsSync(`public${base}.webp`);
+    const themed = ['light', 'dark'].every((theme) => existsSync(`public${base}-${theme}.webp`));
+    return { caption, base, single, themed };
+  }),
+}));
+---
+
+<Page
+  locale={locale}
+  page="screenshots/"
+  title={`${t.screenshots.title} · Nagram`}
+  description={t.screenshots.description}
+>
+  <main class="subpage">
+    <h1>{t.screenshots.title}</h1>
+    <p class="lead">{t.screenshots.lead}</p>
+    {
+      shots.map((group) => (
+        <section class="shot-group">
+          <h2>{group.product.name}</h2>
+          <div class:list={['shots', { portrait: group.portrait }]}>
+            {group.slots.map((s) => (
+              <figure>
+                {s.single ? (
+                  <img src={`${s.base}.webp`} alt={`${group.product.name}: ${s.caption}`} loading="lazy" />
+                ) : s.themed ? (
+                  <picture>
+                    <source srcset={`${s.base}-dark.webp`} media="(prefers-color-scheme: dark)" />
+                    <img src={`${s.base}-light.webp`} alt={`${group.product.name}: ${s.caption}`} loading="lazy" />
+                  </picture>
+                ) : (
+                  <div class="shot-placeholder">{t.screenshots.pending}</div>
+                )}
+                <figcaption>{s.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </main>
+</Page>

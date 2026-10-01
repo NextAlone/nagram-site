@@ -1,8 +1,7 @@
 ---
-import { existsSync } from 'node:fs';
-import Base from '../layouts/Base.astro';
+import Page from '../layouts/Page.astro';
 import { PRODUCTS, releasesPageUrl, repoUrl } from '../data/products';
-import { dicts, localePath, type Locale } from '../i18n';
+import { dicts, type Locale } from '../i18n';
 
 interface Props {
   locale: Locale;
@@ -10,7 +9,6 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = dicts[locale];
-const other: Locale = locale === 'zh' ? 'en' : 'zh';
 
 const heroPlatforms = [
   { platform: 'android', label: 'Android', product: 'nagram-android' },
@@ -22,42 +20,9 @@ const heroPlatforms = [
 
 const productById = Object.fromEntries(PRODUCTS.map((p) => [p.id, p]));
 
-// A slot renders a single image when public/screenshots has one without a theme
-// suffix, a light/dark pair when both variants exist, and a placeholder otherwise.
-const shots = PRODUCTS.map((p) => ({
-  product: p,
-  portrait: p.id !== 'nagram-desktop',
-  slots: t.screenshots.slots[p.id].map((caption, i) => {
-    const base = `/screenshots/${p.id}-${i + 1}`;
-    const single = existsSync(`public${base}.webp`);
-    const themed = ['light', 'dark'].every((theme) => existsSync(`public${base}-${theme}.webp`));
-    return { caption, base, single, themed };
-  }),
-}));
-
-const links = {
-  channel: 'https://t.me/nagram_channel',
-  group: 'https://t.me/nagram_group',
-  nnngramChannel: 'https://t.me/Nnngram',
-};
 ---
 
-<Base locale={locale}>
-  <header class="site-header">
-    <a class="brand" href={localePath(locale)}>
-      <img src="/icons/nagram.png" alt="" width="28" height="28" />
-      <span>Nagram</span>
-    </a>
-    <nav>
-      <a href="#products">{t.nav.products}</a>
-      <a href="#features">{t.nav.features}</a>
-      <a href="#screenshots">{t.nav.screenshots}</a>
-      <a class="lang" href={localePath(other)} lang={dicts[other].htmlLang} hreflang={dicts[other].htmlLang}>
-        {t.nav.switchLabel}
-      </a>
-    </nav>
-  </header>
-
+<Page locale={locale}>
   <main
     id="releases-root"
     data-loading={t.release.loading}
@@ -148,76 +113,8 @@ const links = {
         }
       </div>
     </section>
-
-    <section id="features" class="section">
-      <h2>{t.features.title}</h2>
-      <p class="section-lead">{t.features.lead}</p>
-      <ul class="feature-grid">
-        {
-          t.features.items.map((f) => (
-            <li>
-              <h3>{f.title}</h3>
-              <p>{f.body}</p>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-
-    <section id="screenshots" class="section">
-      <h2>{t.screenshots.title}</h2>
-      <p class="section-lead">{t.screenshots.lead}</p>
-      {
-        shots.map((group) => (
-          <div class="shot-group">
-            <h3>{group.product.name}</h3>
-            <div class:list={['shots', { portrait: group.portrait }]}>
-              {group.slots.map((s) => (
-                <figure>
-                  {s.single ? (
-                    <img src={`${s.base}.webp`} alt={`${group.product.name}: ${s.caption}`} loading="lazy" />
-                  ) : s.themed ? (
-                    <picture>
-                      <source srcset={`${s.base}-dark.webp`} media="(prefers-color-scheme: dark)" />
-                      <img src={`${s.base}-light.webp`} alt={`${group.product.name}: ${s.caption}`} loading="lazy" />
-                    </picture>
-                  ) : (
-                    <div class="shot-placeholder">{t.screenshots.pending}</div>
-                  )}
-                  <figcaption>{s.caption}</figcaption>
-                </figure>
-              ))}
-            </div>
-          </div>
-        ))
-      }
-    </section>
   </main>
-
-  <footer class="site-footer">
-    <div class="footer-cols">
-      <div>
-        <h2>{t.footer.community}</h2>
-        <ul>
-          <li><a href={links.channel}>{t.footer.channel}</a></li>
-          <li><a href={links.group}>{t.footer.group}</a></li>
-          <li><a href={links.nnngramChannel}>{t.footer.nnngramChannel}</a></li>
-        </ul>
-      </div>
-      <div>
-        <h2>{t.footer.code}</h2>
-        <ul>
-          {PRODUCTS.map((p) => <li><a href={repoUrl(p.repo)}>{p.repo}</a></li>)}
-        </ul>
-      </div>
-      <div class="footer-wide">
-        <h2>{t.footer.license}</h2>
-        <p>{t.footer.licenseBody}</p>
-      </div>
-    </div>
-    <p class="disclaimer">{t.footer.disclaimer}</p>
-  </footer>
-</Base>
+</Page>
 
 <script>
   import '../scripts/home';

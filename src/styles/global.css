@@ -127,7 +127,8 @@ main,
   text-decoration: none;
 }
 
-.site-header nav a:hover {
+.site-header nav a:hover,
+.site-header nav a[aria-current='page'] {
   color: var(--text);
 }
 
@@ -387,8 +388,8 @@ h2 {
   margin-top: 36px;
 }
 
-.shot-group h3 {
-  font-size: 1.05rem;
+.shot-group h2 {
+  font-size: 1.2rem;
 }
 
 .shots {
@@ -492,6 +493,11 @@ h2 {
 }
 
 @media (max-width: 640px) {
+  .site-header {
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+
   .site-header nav {
     gap: 14px;
     font-size: 0.9rem;
@@ -513,5 +519,95 @@ h2 {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+}
+
+.subpage {
+  padding-block: 40px 64px;
+}
+
+.subpage h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.feature-group {
+  margin-top: 48px;
+}
+
+.feature-table {
+  width: 100%;
+  margin-top: 14px;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.feature-table th,
+.feature-table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.feature-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.feature-table th:first-child {
+  padding-left: 0;
+  text-align: left;
+}
+
+.feature-table tbody th {
+  font-weight: 500;
+}
+
+.feature-table small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+.feature-table td {
+  width: 76px;
+  text-align: center;
+}
+
+.feature-table .yes {
+  color: var(--accent-strong);
+  font-weight: 700;
+}
+
+.feature-table .no {
+  color: var(--border);
+}
+
+.feature-footnote {
+  margin-top: 40px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .feature-table {
+    font-size: 0.9rem;
+  }
+
+  .feature-table th,
+  .feature-table td {
+    padding: 9px 2px;
+  }
+
+  .feature-table td {
+    width: 40px;
+  }
+
+  .feature-table thead th {
+    font-size: 0.62rem;
   }
 }

@@ -1,12 +1,15 @@
 # nagram-site
 
-Nagram 系列（Nagram Android、Nagram iOS、Nagram Desktop、Nnngram）的宣传站。Astro 静态站，部署到 Cloudflare Workers static assets；中文在 `/`，英文在 `/en/`。
+Nagram 系列（Nagram Android、Nagram iOS、Nagram Desktop、Nnngram）的宣传站。Astro 静态站，部署到 Cloudflare Workers static assets；中文在 `/`，英文在 `/en/`，另有 `features/` 与 `screenshots/` 两个子页面。
 
 ## 结构
 
 - `src/data/products.ts`：四个产品的仓库、发布来源、下载平台与资源名匹配规则，页面和 Worker 共用。
 - `src/i18n/`：中英文文案。特性条目取自各仓库的 README 与设置页源码，增删时请回到源码核对。
-- `src/components/Home.astro`：单页内容；`src/scripts/home.ts` 负责平台高亮与版本信息。
+- `src/layouts/Page.astro`：各页面共用的页头导航与页脚。
+- `src/components/Home.astro`：首页（Hero 与产品矩阵）；`src/scripts/home.ts` 负责平台高亮与版本信息。
+- `src/components/Features.astro` 与 `src/data/features.ts`：`/features/` 功能列表页及其对照表数据。每一项都对照过对应仓库的设置页源码；绕过内容保护、隐身与隐藏在线状态一类的功能有意不列出。
+- `src/components/Screenshots.astro`：`/screenshots/` 截图页。
 - `worker/index.ts`：Worker，只处理 `/api/*` 与 `/download/*`，其余路径由静态资源直接响应。
 
 ## Worker 路由

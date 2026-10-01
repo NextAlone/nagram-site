@@ -18,7 +18,16 @@ export interface Dict {
     items: Record<ProductId, { platform: string; tagline: string; features: string[] }>;
   };
   features: { title: string; lead: string; items: { title: string; body: string }[] };
-  screenshots: { title: string; lead: string; pending: string; slots: Record<ProductId, string[]> };
+  featureList: {
+    title: string;
+    description: string;
+    lead: string;
+    feature: string;
+    supported: string;
+    unsupported: string;
+    footnote: string;
+  };
+  screenshots: { title: string; description: string; lead: string; pending: string; slots: Record<ProductId, string[]> };
   release: {
     loading: string;
     unavailable: string;
@@ -44,4 +53,4 @@ export interface Dict {
 
 export const dicts: Record<Locale, Dict> = { zh, en };
 
-export const localePath = (locale: Locale) => (locale === 'zh' ? '/' : '/en/');
+export const localePath = (locale: Locale, page = '') => (locale === 'zh' ? '/' : '/en/') + page;

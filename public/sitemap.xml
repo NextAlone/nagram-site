@@ -10,4 +10,24 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://nagram.app/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://nagram.app/en/" />
   </url>
+  <url>
+    <loc>https://nagram.app/features/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://nagram.app/features/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://nagram.app/en/features/" />
+  </url>
+  <url>
+    <loc>https://nagram.app/en/features/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://nagram.app/features/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://nagram.app/en/features/" />
+  </url>
+  <url>
+    <loc>https://nagram.app/screenshots/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://nagram.app/screenshots/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://nagram.app/en/screenshots/" />
+  </url>
+  <url>
+    <loc>https://nagram.app/en/screenshots/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://nagram.app/screenshots/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://nagram.app/en/screenshots/" />
+  </url>
 </urlset>

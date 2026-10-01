@@ -26,13 +26,13 @@ export const en: Dict = {
         platform: 'Android 5.0 or later',
         tagline: 'The Android client based on NekoX, and the most complete of the family.',
         features: [
-          'Unlimited login accounts',
-          'Proxy tools: subscriptions, speed tests, automatic switching, and a built-in public WebSocket proxy relayed through Cloudflare CDN',
+          'Up to 128 login accounts',
+          'Custom DoH and IP version strategy',
           'Combine messages, invert reply, quick reply from the long-press menu',
           'Undo and redo in the input field, editable text styles',
           'Back up, restore and share your sticker set list',
-          'OpenKeychain integration: sign, verify, decrypt, import',
-          'Optional notification service without Google services',
+          'OpenKeychain integration: verify signatures, import and share keys',
+          'Choice of push service: FCM, UnifiedPush, MicroG or in-app',
         ],
       },
       'nagram-ios': {
@@ -56,7 +56,7 @@ export const en: Dict = {
           'Voice transcription, including batches of selected voice messages',
           'Message screenshots, optionally with a cloud theme',
           'Link rules and local inline bot rules',
-          'Demo mode and local display names',
+          'Local display names',
           'Local pins beyond the server limit',
           'App icon selection, built-in Simplified and Traditional Chinese strings',
         ],
@@ -65,8 +65,7 @@ export const en: Dict = {
         platform: 'Android 8.1 or later · arm64-v8a',
         tagline: 'A leaner build based on Nullgram with a largely similar feature set. Android only; builds are posted to the Telegram channel.',
         features: [
-          'Per-account passcode, with hidden accounts and a panic code',
-          'Story stealth mode and an option to stay offline',
+          'Per-account passcode',
           'Quick toggle for anonymous posting',
           'Zalgo symbol filter',
           'Channel aliases',
@@ -96,10 +95,6 @@ export const en: Dict = {
         body: 'Insert spaces between CJK and Latin text or digits when sending, editing or reading.',
       },
       {
-        title: 'Copy protected content',
-        body: 'Copy message text even in chats that have content protection enabled.',
-      },
-      {
         title: 'Hide sponsored messages',
         body: 'Sponsored messages in channels are no longer shown.',
       },
@@ -109,8 +104,18 @@ export const en: Dict = {
       },
     ],
   },
+  featureList: {
+    title: 'Feature list',
+    description: 'A comparison of the enhancements in Nagram Android, Nagram iOS, Nagram Desktop and Nnngram, grouped by translation, messages, chat list, media, interface, network and accounts.',
+    lead: 'Enhancements each client adds on top of the official Telegram apps. A check mark means the client implements it; entry points and details vary by platform.',
+    feature: 'Feature',
+    supported: 'Supported',
+    unsupported: 'Not supported',
+    footnote: 'Compiled from the settings code of each repository. Only enhancements are listed, not features the official Telegram apps already have. The clients keep changing, so the apps themselves are the reference.',
+  },
   screenshots: {
     title: 'Screenshots',
+    description: 'Screenshots of Nagram Android, Nagram iOS, Nagram Desktop and Nnngram.',
     lead: 'Screenshots with light and dark versions follow your system theme.',
     pending: 'Screenshot coming soon',
     slots: {

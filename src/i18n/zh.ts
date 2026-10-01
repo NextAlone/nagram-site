@@ -8,7 +8,7 @@ export const zh: Dict = {
     description:
       'Nagram 是一组开源的第三方 Telegram 客户端，覆盖 Android、iOS、Windows、macOS 与 Linux，提供多引擎与大模型翻译、消息过滤、复读、盘古之白等增强功能。',
   },
-  nav: { products: '产品', features: '特性', screenshots: '截图', switchLabel: 'English' },
+  nav: { products: '产品', features: '功能', screenshots: '截图', switchLabel: 'English' },
   hero: {
     eyebrow: '开源的第三方 Telegram 客户端',
     title: ['同一套增强，', '带到每一块屏幕'],
@@ -26,13 +26,13 @@ export const zh: Dict = {
         platform: 'Android 5.0 及以上',
         tagline: '基于 NekoX 的 Android 客户端，功能最全的一端。',
         features: [
-          '不限数量的登录账号',
-          '代理工具：订阅导入、测速排序、自动切换，内置经 Cloudflare CDN 中继的 WebSocket 公共代理',
+          '最多 128 个登录账号',
+          '自定义 DoH 与 IP 版本策略',
           '合并消息、反向回复、长按菜单快速回复',
           '输入框撤销与重做、可编辑的文字样式',
           '贴纸包列表的备份、恢复与分享',
-          'OpenKeychain 集成：签名、验证、解密、导入',
-          '可选的无 Google 服务通知方案',
+          'OpenKeychain 集成：验证签名、导入与分享公钥',
+          '推送服务可选：FCM、UnifiedPush、MicroG 或应用内',
         ],
       },
       'nagram-ios': {
@@ -56,7 +56,7 @@ export const zh: Dict = {
           '语音转写，可批量处理选中的语音消息',
           '消息截图，可套用云端主题',
           '链接规则与本地 inline bot 规则',
-          '演示模式与本地显示名称',
+          '本地显示名称',
           '超出服务端上限的本地置顶',
           '应用图标选择，内置简体与繁体中文文案',
         ],
@@ -65,8 +65,7 @@ export const zh: Dict = {
         platform: 'Android 8.1 及以上 · arm64-v8a',
         tagline: '基于 Nullgram 的精简版本，功能与 Nagram 大体相近，仅支持 Android。安装包发布在 Telegram 频道。',
         features: [
-          '按账号设置密码，可隐藏账号并设置紧急代码',
-          '动态隐身模式，可保持离线状态',
+          '按账号设置密码',
           '快速切换匿名发言',
           '过滤 Zalgo 符号',
           '频道别名',
@@ -96,10 +95,6 @@ export const zh: Dict = {
         body: '在发送、编辑或阅读时，自动为中文与英文、数字之间补上空格。',
       },
       {
-        title: '复制受保护的内容',
-        body: '在开启了内容保护的对话中仍可复制消息文本。',
-      },
-      {
         title: '隐藏赞助消息',
         body: '不再显示频道中的赞助消息。',
       },
@@ -109,8 +104,18 @@ export const zh: Dict = {
       },
     ],
   },
+  featureList: {
+    title: '功能列表',
+    description: 'Nagram Android、Nagram iOS、Nagram Desktop 与 Nnngram 的增强功能对照表，按翻译、消息、聊天列表、媒体、界面、网络与账号分类。',
+    lead: '各端在 Telegram 官方客户端之外加入的增强功能。勾选表示该端已实现，入口与细节随平台有所不同。',
+    feature: '功能',
+    supported: '支持',
+    unsupported: '不支持',
+    footnote: '本表依据各仓库的设置页源码整理，只列出增强功能，Telegram 官方已有的功能不在其中。各端持续更新，实际以应用内为准。',
+  },
   screenshots: {
     title: '截图',
+    description: 'Nagram Android、Nagram iOS、Nagram Desktop 与 Nnngram 的界面截图。',
     lead: '提供明暗两版的截图会随系统主题切换。',
     pending: '截图待补充',
     slots: {
