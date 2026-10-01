@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import { dicts } from '../i18n';
+
+// One static 404 page serves every path, so it carries both languages.
+const { zh, en } = dicts;
+---
+
+<Base locale="zh" title={`${zh.notFound.title} · Nagram`} noindex>
+  <main class="not-found">
+    <img src="/icons/nagram.png" alt="Nagram" width="72" height="72" />
+    <h1>404</h1>
+    <p>{zh.notFound.title}。{zh.notFound.body} <a href="/">{zh.notFound.home}</a></p>
+    <p lang="en">{en.notFound.title}. {en.notFound.body} <a href="/en/">{en.notFound.home}</a></p>
+  </main>
+</Base>

@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "nagram-site",
+  "main": "./worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    // Static pages are served straight from assets; only these paths reach the Worker.
+    "run_worker_first": ["/api/*", "/download/*"]
+  },
+  "observability": {
+    "enabled": true
+  }
+}

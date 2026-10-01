@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /download/
+
+Sitemap: https://nagram.app/sitemap.xml
