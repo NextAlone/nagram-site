@@ -1,0 +1,54 @@
+---
+import type { Shot } from '../../../lib/screenshots';
+import Reel from '../../ui/Reel.astro';
+import ShotImage from './ShotImage.astro';
+
+interface Props {
+  shots: Shot[];
+  // Used in each image's alternative text.
+  productName: string;
+  portrait: boolean;
+  labels: { previous: string; next: string; pending: string; region: string };
+}
+
+const { shots, productName, portrait, labels } = Astro.props;
+---
+
+<Reel
+  label={labels.region}
+  labels={{ previous: labels.previous, next: labels.next }}
+  item={portrait ? 'clamp(210px, 60vw, 288px)' : 'min(86vw, 680px)'}
+  gap="clamp(16px, 2.4vw, 28px)"
+  class="gallery"
+>
+  {
+    shots.map((shot) => (
+      <li>
+        <figure class="gallery__figure">
+          <ShotImage
+            shot={shot}
+            alt={`${productName}: ${shot.caption}`}
+            portrait={portrait}
+            pendingLabel={labels.pending}
+          />
+          <figcaption>{shot.caption}</figcaption>
+        </figure>
+      </li>
+    ))
+  }
+</Reel>
+
+<style>
+  .gallery__figure {
+    width: 100%;
+  }
+
+  figcaption {
+    margin-top: var(--s-4);
+    color: var(--c-text-2);
+    font-size: var(--t-subhead);
+    font-weight: 500;
+    letter-spacing: var(--tr-small);
+    text-align: center;
+  }
+</style>

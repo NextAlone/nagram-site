@@ -1,0 +1,103 @@
+---
+import { getImage, Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { Shot } from '../../../lib/screenshots';
+import Icon from '../../ui/Icon.astro';
+
+interface Props {
+  shot: Shot;
+  alt: string;
+  portrait: boolean;
+  pendingLabel: string;
+  // Rendered width, for picking the smallest sufficient file.
+  sizes?: string;
+}
+
+const { shot, alt, portrait, pendingLabel } = Astro.props;
+const sizes =
+  Astro.props.sizes ?? (portrait ? '(min-width: 834px) 288px, 60vw' : '(min-width: 834px) 680px, 86vw');
+const widthsFor = (image: ImageMetadata) =>
+  [...new Set([320, 480, 640, image.width].map((w) => Math.min(w, image.width)))].sort((a, b) => a - b);
+
+// Light/dark pairs need media-scoped sources, which <Picture> does not emit.
+const themed =
+  shot.kind === 'themed'
+    ? await Promise.all(
+        [shot.dark, shot.light].flatMap((image) =>
+          (['avif', 'webp'] as const).map((format) => getImage({ src: image, format, widths: widthsFor(image) })),
+        ),
+      )
+    : null;
+---
+
+{
+  shot.kind === 'single' ? (
+    <Picture
+      src={shot.image}
+      formats={['avif']}
+      fallbackFormat="webp"
+      widths={widthsFor(shot.image)}
+      sizes={sizes}
+      alt={alt}
+      class:list={['shot', { 'shot--portrait': portrait }]}
+    />
+  ) : shot.kind === 'themed' && themed ? (
+    <picture>
+      <source media="(prefers-color-scheme: dark)" type="image/avif" srcset={themed[0].srcSet.attribute} sizes={sizes} />
+      <source media="(prefers-color-scheme: dark)" type="image/webp" srcset={themed[1].srcSet.attribute} sizes={sizes} />
+      <source type="image/avif" srcset={themed[2].srcSet.attribute} sizes={sizes} />
+      <img
+        src={themed[3].src}
+        srcset={themed[3].srcSet.attribute}
+        sizes={sizes}
+        width={shot.light.width}
+        height={shot.light.height}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        class:list={['shot', { 'shot--portrait': portrait }]}
+      />
+    </picture>
+  ) : (
+    <div class:list={['shot', 'shot--pending', { 'shot--portrait': portrait }]} role="img" aria-label={alt}>
+      <Icon name="image-pending" class="shot__glyph" stroke={1.5} />
+      <span>{pendingLabel}</span>
+    </div>
+  )
+}
+
+<style>
+  .shot {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    border-radius: clamp(18px, 2.4vw, 28px);
+    background: var(--c-fill);
+    object-fit: cover;
+    box-shadow:
+      0 0 0 1px var(--c-hairline),
+      0 40px 80px -36px rgb(0 0 0 / 0.7);
+  }
+
+  .shot--portrait {
+    aspect-ratio: 9 / 19.5;
+  }
+
+  .shot--pending {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: var(--s-3);
+    padding: var(--s-5);
+    border: 1.5px dashed var(--c-separator-strong);
+    background: var(--tile-bg, var(--c-bg-alt));
+    box-shadow: none;
+    color: var(--c-text-3);
+    font-size: var(--t-footnote);
+    text-align: center;
+  }
+
+  .shot__glyph {
+    --icon-size: 40px;
+  }
+</style>

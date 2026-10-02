@@ -1,0 +1,199 @@
+---
+import { LINKS } from '../../config/site';
+import { PRODUCTS, repoUrl } from '../../data/products';
+import { dicts, localePath, type Locale } from '../../i18n';
+import AppIcon from '../brand/AppIcon.astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  locale: Locale;
+  page: string;
+  // Name of the current page in the breadcrumb; the home page has none.
+  crumb?: string;
+}
+
+const { locale, page, crumb } = Astro.props;
+const t = dicts[locale];
+const other: Locale = locale === 'zh' ? 'en' : 'zh';
+const otherLang = dicts[other].htmlLang;
+
+const community = [
+  { href: LINKS.channel, text: t.footer.channel },
+  { href: LINKS.group, text: t.footer.group },
+  { href: LINKS.nnngramChannel, text: t.footer.nnngramChannel },
+];
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p class="footer__disclaimer">{t.footer.disclaimer}</p>
+
+    <div class="footer__directory">
+      <section class="footer__col">
+        <h2>{t.footer.community}</h2>
+        <ul role="list">
+          {
+            community.map((c) => (
+              <li>
+                <a href={c.href}>
+                  <Icon name="telegram" class="footer__glyph" />
+                  {c.text}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+      <section class="footer__col">
+        <h2>{t.footer.code}</h2>
+        <ul role="list">
+          {
+            PRODUCTS.map((p) => (
+              <li>
+                <a href={repoUrl(p.repo)}>
+                  <Icon name="github" class="footer__glyph" />
+                  {p.repo}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+      <section class="footer__col footer__col--wide">
+        <h2>{t.footer.license}</h2>
+        <p>{t.footer.licenseBody}</p>
+      </section>
+    </div>
+
+    <div class="footer__legal">
+      <nav class="crumbs" aria-label={t.ui.breadcrumb}>
+        <a class="crumbs__home" href={localePath(locale)}>
+          <AppIcon id="nagram" size={18} />
+          <span>Nagram</span>
+        </a>
+        {
+          crumb && (
+            <>
+              <Icon name="chevron-right" class="crumbs__sep" stroke={2} />
+              <span aria-current="page">{crumb}</span>
+            </>
+          )
+        }
+      </nav>
+      <div class="footer__meta">
+        <a href={localePath(locale, 'privacy/')}>
+          <Icon name="privacy" class="footer__glyph" />
+          {t.footer.privacy}
+        </a>
+        <a href={localePath(other, page)} lang={otherLang} hreflang={otherLang}>
+          <Icon name="globe" class="footer__glyph" />
+          {t.nav.switchLabel}
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--c-separator);
+    background: var(--c-bg-alt);
+    color: var(--c-text-2);
+    font-size: var(--t-caption);
+    line-height: 1.5;
+    letter-spacing: var(--tr-caption);
+    content-visibility: auto;
+    contain-intrinsic-size: auto 480px;
+  }
+
+  .footer__inner {
+    padding-block: var(--s-7) var(--s-6);
+  }
+
+  .footer__disclaimer {
+    padding-bottom: var(--s-4);
+    border-bottom: 1px solid var(--c-separator);
+  }
+
+  .footer__directory {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+    gap: var(--s-6) var(--s-8);
+    padding-block: var(--s-6);
+  }
+
+  .footer__col--wide {
+    grid-column: 1 / -1;
+  }
+
+  @media (min-width: 834px) {
+    .footer__directory {
+      grid-template-columns: 1fr 1fr 2fr;
+    }
+
+    .footer__col--wide {
+      grid-column: auto;
+    }
+  }
+
+  .footer h2 {
+    margin-bottom: var(--s-3);
+    color: var(--c-text);
+    font-family: var(--font-sans);
+    font-size: var(--t-caption);
+    font-weight: 600;
+  }
+
+  .footer li + li {
+    margin-top: var(--s-2);
+  }
+
+  .footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--c-text-2);
+  }
+
+  .footer a:hover {
+    color: var(--c-text);
+  }
+
+  .footer__glyph {
+    --icon-size: 13px;
+    opacity: 0.85;
+  }
+
+  .footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-3) var(--s-6);
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--c-separator);
+  }
+
+  .crumbs {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    color: var(--c-text);
+  }
+
+  .crumbs a {
+    color: var(--c-text);
+    font-weight: 600;
+  }
+
+  .crumbs__sep {
+    --icon-size: 10px;
+    color: var(--c-text-3);
+  }
+
+  .footer__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-5);
+  }
+</style>

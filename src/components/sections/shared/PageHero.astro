@@ -1,0 +1,47 @@
+---
+import type { Tone } from '../../../design/tones';
+import type { IconName } from '../../../icons';
+import Headline from '../../ui/Headline.astro';
+import IconTile from '../../ui/IconTile.astro';
+
+interface Props {
+  icon: IconName;
+  tone: Tone;
+  title: string;
+  lead?: string;
+}
+
+const { icon, tone, title, lead } = Astro.props;
+---
+
+<section class="page-hero" aria-labelledby="page-title">
+  <div class="container page-hero__inner">
+    <div class="page-hero__glyph" data-enter style="--enter-step:0">
+      <IconTile icon={icon} tone={tone} size="xl" />
+    </div>
+    <Headline level={1} titleId="page-title" size="hero" title={title} lead={lead} motion="enter" step={1} />
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    padding-block: clamp(64px, 9vw, 120px) clamp(48px, 6vw, 80px);
+    background: var(--c-bg);
+    text-align: center;
+  }
+
+  .page-hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .page-hero__glyph {
+    margin-bottom: clamp(var(--s-6), 3vw, var(--s-8));
+  }
+
+  .page-hero :global(.headline) {
+    margin-bottom: 0;
+  }
+</style>

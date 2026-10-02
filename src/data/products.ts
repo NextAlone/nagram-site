@@ -1,7 +1,10 @@
-// Shared by the Astro pages and the Worker: where each product is released
-// and how a download platform maps to a release asset, CI workflow or page.
+// Where each product is released and how a download platform maps to a release
+// asset, CI workflow or page. Read by the pages and by the build-time release
+// fetch that also writes the /download/* rules.
 
 export type ProductId = 'nagram-android' | 'nagram-ios' | 'nagram-desktop' | 'nnngram';
+
+export type AppIconId = 'nagram' | 'nnngram';
 
 export type ReleaseSource =
   | { type: 'github'; repo: string }
@@ -25,7 +28,7 @@ export type LinkKind = 'testflight' | 'beta';
 export interface Product {
   id: ProductId;
   name: string;
-  icon: string;
+  icon: AppIconId;
   repo: string;
   license: string;
   source: ReleaseSource;
@@ -38,7 +41,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'nagram-android',
     name: 'Nagram Android',
-    icon: '/icons/nagram.png',
+    icon: 'nagram',
     repo: 'NextAlone/Nagram',
     license: 'GPL-3.0',
     source: { type: 'github', repo: 'NextAlone/Nagram' },
@@ -51,7 +54,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'nagram-ios',
     name: 'Nagram iOS',
-    icon: '/icons/nagram.png',
+    icon: 'nagram',
     repo: 'NextAlone/Nagram-iOS',
     license: '',
     source: { type: 'appstore', appId: '6781000861' },
@@ -61,7 +64,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'nagram-desktop',
     name: 'Nagram Desktop',
-    icon: '/icons/nagram.png',
+    icon: 'nagram',
     repo: 'NextAlone/Nagram-qt',
     license: 'GPL-3.0',
     source: { type: 'actions', repo: 'NextAlone/Nagram-qt' },
@@ -74,7 +77,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'nnngram',
     name: 'Nnngram',
-    icon: '/icons/nnngram.svg',
+    icon: 'nnngram',
     repo: 'NextAlone/Nnngram',
     license: 'GPL-2.0',
     source: { type: 'channel', url: 'https://t.me/Nnngram' },

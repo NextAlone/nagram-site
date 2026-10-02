@@ -12,7 +12,18 @@ export interface FeatureRow extends Text {
   note?: Text;
 }
 
+export type FeatureGroupId =
+  | 'translation'
+  | 'text'
+  | 'messages'
+  | 'chats'
+  | 'media'
+  | 'interface'
+  | 'network'
+  | 'accounts';
+
 export interface FeatureGroup extends Text {
+  id: FeatureGroupId;
   rows: FeatureRow[];
 }
 
@@ -40,6 +51,7 @@ const row = (zh: string, en: string, on: string, note?: Text): FeatureRow => ({
 
 export const FEATURE_GROUPS: FeatureGroup[] = [
   {
+    id: 'translation',
     zh: '翻译与 AI',
     en: 'Translation and AI',
     rows: [
@@ -61,6 +73,7 @@ export const FEATURE_GROUPS: FeatureGroup[] = [
     ],
   },
   {
+    id: 'text',
     zh: '文本与输入',
     en: 'Text and input',
     rows: [
@@ -76,6 +89,7 @@ export const FEATURE_GROUPS: FeatureGroup[] = [
     ],
   },
   {
+    id: 'messages',
     zh: '消息',
     en: 'Messages',
     rows: [
@@ -103,6 +117,7 @@ export const FEATURE_GROUPS: FeatureGroup[] = [
     ],
   },
   {
+    id: 'chats',
     zh: '聊天列表与文件夹',
     en: 'Chat list and folders',
     rows: [
@@ -119,6 +134,7 @@ export const FEATURE_GROUPS: FeatureGroup[] = [
     ],
   },
   {
+    id: 'media',
     zh: '媒体与贴纸',
     en: 'Media and stickers',
     rows: [
@@ -130,6 +146,7 @@ export const FEATURE_GROUPS: FeatureGroup[] = [
     ],
   },
   {
+    id: 'interface',
     zh: '界面与资料',
     en: 'Interface and profiles',
     rows: [
@@ -156,6 +173,7 @@ export const FEATURE_GROUPS: FeatureGroup[] = [
     ],
   },
   {
+    id: 'network',
     zh: '网络与链接',
     en: 'Network and links',
     rows: [
@@ -166,6 +184,7 @@ export const FEATURE_GROUPS: FeatureGroup[] = [
     ],
   },
   {
+    id: 'accounts',
     zh: '账号与备份',
     en: 'Accounts and backup',
     rows: [

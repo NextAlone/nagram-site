@@ -1,0 +1,54 @@
+---
+import { Picture } from 'astro:assets';
+import type { HTMLAttributes } from 'astro/types';
+import nagram from '../../assets/brand/nagram.png';
+import type { AppIconId } from '../../data/products';
+
+interface Props extends Omit<HTMLAttributes<'img'>, 'src' | 'width' | 'height' | 'loading' | 'id'> {
+  id: AppIconId;
+  // Rendered size in CSS pixels; 2x and 3x variants are generated.
+  size: number;
+  alt?: string;
+  // Above-the-fold icons load eagerly and with high fetch priority.
+  priority?: boolean;
+}
+
+const { id, size, alt = '', priority = false, class: className, ...rest } = Astro.props;
+const loading = priority ? 'eager' : 'lazy';
+---
+
+{
+  id === 'nagram' ? (
+    <Picture
+      src={nagram}
+      formats={['avif']}
+      fallbackFormat="webp"
+      width={size}
+      height={size}
+      densities={[2, 3]}
+      quality="high"
+      alt={alt}
+      loading={loading}
+      fetchpriority={priority ? 'high' : undefined}
+      class:list={['app-icon', className]}
+      {...rest}
+    />
+  ) : (
+    <img
+      src="/icons/nnngram.svg"
+      width={size}
+      height={size}
+      alt={alt}
+      loading={loading}
+      decoding="async"
+      class:list={['app-icon', className]}
+      {...rest}
+    />
+  )
+}
+
+<style>
+  .app-icon {
+    flex: none;
+  }
+</style>

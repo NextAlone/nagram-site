@@ -1,0 +1,152 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import type { IconName } from '../../icons';
+import Icon from './Icon.astro';
+
+export type ButtonVariant = 'primary' | 'secondary' | 'tinted' | 'neutral' | 'fallback';
+export type ButtonSize = 's' | 'm' | 'l';
+
+interface Props extends HTMLAttributes<'a'> {
+  href: string;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  icon?: IconName;
+  trailingIcon?: IconName;
+  block?: boolean;
+}
+
+const { variant = 'primary', size = 'm', icon, trailingIcon, block = false, class: className, ...rest } = Astro.props;
+// A fallback link leaves for the releases page, which the arrow makes explicit.
+const trailing = trailingIcon ?? (variant === 'fallback' ? 'external' : undefined);
+---
+
+<a class:list={['btn', `btn--${variant}`, `btn--${size}`, { 'btn--block': block }, className]} {...rest}>
+  {icon && <Icon name={icon} class="btn__icon" stroke={2} />}
+  <span class="btn__label"><slot /></span>
+  {trailing && <Icon name={trailing} class="btn__icon btn__icon--trailing" stroke={2} />}
+</a>
+
+<style>
+  .btn {
+    --btn-bg: var(--c-accent);
+    --btn-fg: var(--c-on-accent);
+    --btn-border: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4em;
+    min-height: var(--btn-h);
+    padding: 0 var(--btn-px);
+    border: 1px solid var(--btn-border);
+    border-radius: var(--r-pill);
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    font-size: var(--btn-fs);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: var(--tr-small);
+    white-space: nowrap;
+    text-decoration: none;
+    transition:
+      background-color var(--d-fast) var(--ease),
+      border-color var(--d-fast) var(--ease),
+      color var(--d-fast) var(--ease),
+      transform var(--d-fast) var(--ease);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn:hover {
+    text-decoration: none;
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn--s {
+    --btn-h: 30px;
+    --btn-px: 13px;
+    --btn-fs: var(--t-footnote);
+  }
+
+  .btn--m {
+    --btn-h: 38px;
+    --btn-px: 17px;
+    --btn-fs: var(--t-callout);
+  }
+
+  .btn--l {
+    --btn-h: 48px;
+    --btn-px: 24px;
+    --btn-fs: var(--t-body);
+  }
+
+  .btn--block {
+    display: flex;
+    width: 100%;
+  }
+
+  .btn--primary:hover {
+    --btn-bg: var(--c-accent-hover);
+  }
+
+  .btn--primary:active {
+    --btn-bg: var(--c-accent-active);
+  }
+
+  .btn--secondary {
+    --btn-bg: transparent;
+    --btn-fg: var(--c-link);
+    --btn-border: currentColor;
+  }
+
+  .btn--secondary:hover {
+    --btn-bg: var(--c-accent);
+    --btn-fg: var(--c-on-accent);
+    --btn-border: var(--c-accent);
+  }
+
+  .btn--tinted {
+    --btn-bg: var(--c-accent-tint);
+    --btn-fg: var(--c-link);
+  }
+
+  .btn--tinted:hover {
+    --btn-bg: var(--c-accent-tint-hover);
+  }
+
+  .btn--neutral {
+    --btn-bg: var(--c-fill);
+    --btn-fg: var(--c-text);
+  }
+
+  .btn--neutral:hover {
+    --btn-bg: var(--c-fill-strong);
+  }
+
+  .btn--fallback {
+    --btn-bg: transparent;
+    --btn-fg: var(--c-text-2);
+    --btn-border: var(--c-separator-strong);
+    border-style: dashed;
+  }
+
+  .btn--fallback:hover {
+    --btn-fg: var(--c-text);
+    --btn-border: var(--c-text-3);
+  }
+
+  .btn__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .btn__icon {
+    --icon-size: 1.05em;
+  }
+
+  .btn__icon--trailing {
+    --icon-size: 0.9em;
+    opacity: 0.85;
+  }
+</style>

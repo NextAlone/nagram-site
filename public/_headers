@@ -5,3 +5,10 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
   Strict-Transport-Security: max-age=31536000
   Content-Security-Policy: object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'self'
+
+# Files under /_astro/ carry a content hash in their name and never change in place.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/api/*
+  Cache-Control: public, max-age=300

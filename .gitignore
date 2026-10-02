@@ -3,5 +3,4 @@ dist/
 .astro/
 .wrangler/
 .dev.vars
-worker-configuration.d.ts
 .claude/

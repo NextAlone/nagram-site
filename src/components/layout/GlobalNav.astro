@@ -1,0 +1,410 @@
+---
+import { DOWNLOAD_ANCHOR, NAV } from '../../config/site';
+import { dicts, localePath, type Locale } from '../../i18n';
+import AppIcon from '../brand/AppIcon.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  locale: Locale;
+  // Path below the locale root of the current page.
+  page: string;
+}
+
+const { locale, page } = Astro.props;
+const t = dicts[locale];
+const other: Locale = locale === 'zh' ? 'en' : 'zh';
+const otherLang = dicts[other].htmlLang;
+const home = localePath(locale);
+const downloadHref = `${home}#${DOWNLOAD_ANCHOR}`;
+const items = NAV.map((item) => ({
+  ...item,
+  href: localePath(locale, item.page),
+  text: t.nav[item.label],
+  current: item.page === page,
+}));
+---
+
+<header class="nav">
+  <div class="nav__bar">
+    <a class="nav__brand" href={home}>
+      <AppIcon id="nagram" size={24} priority />
+      <span>Nagram</span>
+    </a>
+    <nav class="nav__links" aria-label={t.ui.mainNav}>
+      <ul role="list">
+        {
+          items.map((item) => (
+            <li>
+              <a href={item.href} aria-current={item.current ? 'page' : undefined}>
+                {item.text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="nav__actions">
+      <a class="nav__lang" href={localePath(other, page)} lang={otherLang} hreflang={otherLang}>
+        <Icon name="globe" />
+        <span>{t.nav.switchLabel}</span>
+      </a>
+      <a class="nav__cta" href={downloadHref}>{t.release.download}</a>
+      <button class="nav__toggle" type="button" popovertarget="nav-sheet" aria-label={t.ui.menu}>
+        <span class="nav__toggle-bar"></span>
+        <span class="nav__toggle-bar"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div id="nav-sheet" class="sheet" popover>
+  <nav class="sheet__nav" aria-label={t.ui.mainNav}>
+    <ul role="list">
+      {
+        items.map((item, i) => (
+          <li class="sheet__item" style={`--i:${i}`}>
+            <a class="sheet__link" href={item.href} aria-current={item.current ? 'page' : undefined}>
+              <Icon name={item.icon} class="sheet__icon" />
+              <span>{item.text}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="sheet__item sheet__footer" style={`--i:${items.length}`}>
+      <a class="sheet__lang" href={localePath(other, page)} lang={otherLang} hreflang={otherLang}>
+        <Icon name="globe" />
+        <span>{t.nav.switchLabel}</span>
+      </a>
+      <Button href={downloadHref} size="l" icon="download" block>{t.release.download}</Button>
+    </div>
+  </nav>
+</div>
+
+<script>
+  // In-page links such as the download anchor do not unload the page, so the
+  // sheet is closed explicitly.
+  const sheet = document.getElementById('nav-sheet');
+  sheet?.addEventListener('click', (event) => {
+    if (event.target instanceof Element && event.target.closest('a')) sheet.hidePopover();
+  });
+</script>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--c-hairline);
+    background: var(--m-bar);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    view-transition-name: site-nav;
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .nav {
+      background: var(--m-bar-solid);
+    }
+  }
+
+  .nav:has(+ .sheet:popover-open) {
+    border-bottom-color: transparent;
+    background: var(--c-bg);
+  }
+
+  .nav__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--s-7);
+    width: min(100% - 2 * var(--gutter), var(--w-wide));
+    height: var(--nav-h);
+    margin-inline: auto;
+  }
+
+  .nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: auto;
+    color: var(--c-text);
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+
+  .nav__links {
+    display: none;
+  }
+
+  .nav__links ul {
+    display: flex;
+    gap: var(--s-7);
+  }
+
+  .nav__links a,
+  .nav__lang {
+    color: var(--c-text);
+    font-size: var(--t-caption);
+    letter-spacing: var(--tr-caption);
+    opacity: 0.8;
+    text-decoration: none;
+    transition: opacity var(--d-fast) var(--ease);
+  }
+
+  .nav__links a:hover,
+  .nav__links a[aria-current],
+  .nav__lang:hover {
+    opacity: 1;
+  }
+
+  .nav__links a[aria-current] {
+    font-weight: 600;
+  }
+
+  .nav__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+  }
+
+  .nav__lang {
+    display: none;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .nav__cta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 13px;
+    border-radius: var(--r-pill);
+    background: var(--c-accent);
+    color: var(--c-on-accent);
+    font-size: var(--t-caption);
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color var(--d-fast) var(--ease);
+  }
+
+  .nav__cta:hover {
+    background: var(--c-accent-hover);
+  }
+
+  .nav__toggle {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    margin-right: -10px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--c-text);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav__toggle-bar {
+    position: absolute;
+    left: 12px;
+    width: 16px;
+    height: 1.5px;
+    border-radius: 1px;
+    background: currentColor;
+    transition: transform var(--d-base) var(--ease);
+  }
+
+  .nav__toggle-bar:first-child {
+    top: 16.5px;
+  }
+
+  .nav__toggle-bar:last-child {
+    top: 22px;
+  }
+
+  .nav:has(+ .sheet:popover-open) .nav__toggle-bar:first-child {
+    transform: translateY(2.75px) rotate(45deg);
+  }
+
+  .nav:has(+ .sheet:popover-open) .nav__toggle-bar:last-child {
+    transform: translateY(-2.75px) rotate(-45deg);
+  }
+
+  /* Apple's arrangement: mark at the start, sections centered, actions at the end. */
+  @media (min-width: 834px) {
+    .nav__bar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+    }
+
+    .nav__brand {
+      justify-self: start;
+    }
+
+    .nav__links,
+    .nav__lang {
+      display: flex;
+    }
+
+    .nav__links ul {
+      gap: clamp(var(--s-7), 4vw, var(--s-9));
+    }
+
+    .nav__actions {
+      justify-self: end;
+      gap: var(--s-6);
+    }
+
+    .nav__toggle {
+      display: none;
+    }
+  }
+
+  /* Without the Popover API the sheet cannot open, so the links stay inline. */
+  @supports not selector(:popover-open) {
+    .nav__bar {
+      flex-wrap: wrap;
+      height: auto;
+      min-height: var(--nav-h);
+      column-gap: var(--s-5);
+    }
+
+    .nav__links {
+      display: flex;
+      order: 3;
+      width: 100%;
+      padding-bottom: var(--s-3);
+    }
+
+    .nav__links ul {
+      gap: var(--s-5);
+    }
+
+    .nav__toggle {
+      display: none;
+    }
+  }
+
+  /* Mobile sheet */
+
+  .sheet {
+    display: none;
+    position: fixed;
+    inset: var(--nav-h) 0 0;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: var(--s-4) var(--gutter) calc(var(--s-8) + env(safe-area-inset-bottom));
+    border: 0;
+    background: var(--c-bg);
+    color: var(--c-text);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    opacity: 0;
+    transition:
+      opacity var(--d-base) var(--ease),
+      overlay var(--d-base) allow-discrete,
+      display var(--d-base) allow-discrete;
+  }
+
+  .sheet:popover-open {
+    display: block;
+    opacity: 1;
+  }
+
+  @starting-style {
+    .sheet:popover-open {
+      opacity: 0;
+    }
+  }
+
+  .sheet::backdrop {
+    background: transparent;
+  }
+
+  .sheet__nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-7);
+    min-height: 100%;
+  }
+
+  .sheet__link {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    padding-block: var(--s-3);
+    color: var(--c-text);
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.14;
+    letter-spacing: var(--tr-title);
+    text-decoration: none;
+  }
+
+  .sheet__link[aria-current] {
+    color: var(--c-link);
+  }
+
+  .sheet__icon {
+    --icon-size: 26px;
+    color: var(--c-text-3);
+  }
+
+  .sheet__link[aria-current] .sheet__icon {
+    color: inherit;
+  }
+
+  .sheet__footer {
+    display: grid;
+    gap: var(--s-5);
+    margin-top: auto;
+    padding-top: var(--s-6);
+    border-top: 1px solid var(--c-separator);
+  }
+
+  .sheet__lang {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    color: var(--c-text-2);
+    font-size: var(--t-body);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .sheet:popover-open .sheet__item {
+      animation: sheet-item var(--d-slow) var(--ease-out) both;
+      animation-delay: calc(var(--i) * 40ms + 40ms);
+    }
+  }
+
+  @keyframes sheet-item {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+  }
+
+  @media (min-width: 834px) {
+    .sheet:popover-open {
+      display: none;
+    }
+  }
+
+  :global(html:has(#nav-sheet:popover-open)) {
+    overflow: hidden;
+  }
+
+  @media (min-width: 834px) {
+    :global(html:has(#nav-sheet:popover-open)) {
+      overflow: visible;
+    }
+  }
+</style>

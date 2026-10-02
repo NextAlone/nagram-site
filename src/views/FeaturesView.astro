@@ -1,0 +1,23 @@
+---
+import FeatureMatrix from '../components/sections/features/FeatureMatrix.astro';
+import Highlights from '../components/sections/shared/Highlights.astro';
+import PageHero from '../components/sections/shared/PageHero.astro';
+import Section from '../components/ui/Section.astro';
+import { dicts, type Locale } from '../i18n';
+import Page from '../layouts/Page.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const f = dicts[locale].featureList;
+---
+
+<Page locale={locale} page="features/" title={`${f.title} · Nagram`} description={f.description} crumb={f.title}>
+  <PageHero icon="features" tone="blue" title={f.title} lead={f.lead} />
+  <Highlights locale={locale} linkToList={false} headlineSize="title" />
+  <Section tone="base" pad="tight" aria-label={f.title}>
+    <FeatureMatrix locale={locale} />
+  </Section>
+</Page>

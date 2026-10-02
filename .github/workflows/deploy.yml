@@ -5,6 +5,10 @@ on:
     branches:
       - main
   workflow_dispatch:
+  # Release data is fetched at build time. The hourly run rebuilds and deploys
+  # only when that data differs from what production serves.
+  schedule:
+    - cron: '17 * * * *'
 
 concurrency:
   group: deploy
@@ -25,9 +29,25 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm check
       - run: pnpm build
-      - name: Deploy to Cloudflare Workers
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Compare release data with production
+        id: changes
+        if: github.event_name == 'schedule'
+        run: |
+          if grep -q '"status":"error"' dist/api/releases.json; then
+            echo "::warning::A release source failed to load; the current deployment stays in place."
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+          elif curl -fsS https://nagram.app/api/releases.json | cmp -s - dist/api/releases.json; then
+            echo "Release data is unchanged."
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Deploy to Cloudflare Pages
+        if: github.event_name != 'schedule' || steps.changes.outputs.deploy == 'true'
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy
+          command: pages deploy --branch=main --commit-hash=${{ github.sha }}

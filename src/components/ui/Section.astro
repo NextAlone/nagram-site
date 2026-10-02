@@ -1,0 +1,51 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'section'> {
+  // base sits on the page color, alt on the gray band; cards inside pick the
+  // contrasting surface through --tile-bg.
+  tone?: 'base' | 'alt';
+  width?: 'content' | 'wide' | 'text';
+  // Skip rendering until scrolled near; for sections below the fold.
+  deferred?: boolean;
+  pad?: 'normal' | 'tight' | 'none';
+}
+
+const { tone = 'base', width = 'content', deferred = false, pad = 'normal', class: className, ...rest } = Astro.props;
+---
+
+<section
+  class:list={['section', `section--${tone}`, `section--pad-${pad}`, { 'section--deferred': deferred }, className]}
+  {...rest}
+>
+  <div class:list={['container', { 'container--wide': width === 'wide', 'container--text': width === 'text' }]}>
+    <slot />
+  </div>
+  {/* Full-width content such as galleries that scroll edge to edge. */}
+  <slot name="bleed" />
+</section>
+
+<style>
+  .section--base {
+    --tile-bg: var(--c-bg-alt);
+    background: var(--c-bg);
+  }
+
+  .section--alt {
+    --tile-bg: var(--c-bg-elevated);
+    background: var(--c-bg-alt);
+  }
+
+  .section--pad-normal {
+    padding-block: var(--section-pad);
+  }
+
+  .section--pad-tight {
+    padding-block: calc(var(--section-pad) * 0.6);
+  }
+
+  .section--deferred {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
+  }
+</style>

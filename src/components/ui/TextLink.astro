@@ -1,0 +1,60 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import type { IconName } from '../../icons';
+import Icon from './Icon.astro';
+
+interface Props extends HTMLAttributes<'a'> {
+  href: string;
+  // Leading glyph, e.g. a brand mark in a link list.
+  icon?: IconName;
+  // Trailing affordance: a chevron for site links, an arrow for other sites.
+  affordance?: 'chevron' | 'external' | 'none';
+  tone?: 'link' | 'muted';
+}
+
+const { icon, affordance = 'chevron', tone = 'link', class: className, ...rest } = Astro.props;
+---
+
+<a class:list={['text-link', `text-link--${tone}`, className]} {...rest}>
+  {icon && <Icon name={icon} class="text-link__lead" />}
+  <span><slot /></span>
+  {
+    affordance !== 'none' && (
+      <Icon
+        name={affordance === 'external' ? 'external' : 'chevron-right'}
+        class="text-link__trail"
+        stroke={2.25}
+      />
+    )
+  }
+</a>
+
+<style>
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    color: var(--c-link);
+  }
+
+  .text-link--muted {
+    color: var(--c-text-2);
+  }
+
+  .text-link--muted:hover {
+    color: var(--c-text);
+  }
+
+  .text-link__lead {
+    --icon-size: 1.1em;
+  }
+
+  .text-link__trail {
+    --icon-size: 0.78em;
+    transition: transform var(--d-fast) var(--ease);
+  }
+
+  .text-link:hover .text-link__trail {
+    transform: translateX(2px);
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+import type { ReleasesResponse } from '../../../data/products';
+import { dicts, type Locale } from '../../../i18n';
+import IconShowcase from '../../brand/IconShowcase.astro';
+import Headline from '../../ui/Headline.astro';
+import Stage from '../../ui/Stage.astro';
+import HeroCta from './HeroCta.astro';
+
+interface Props {
+  locale: Locale;
+  releases: ReleasesResponse;
+}
+
+const { locale, releases } = Astro.props;
+const t = dicts[locale];
+---
+
+<Stage light="hero" pad="hero" fill class="hero" aria-labelledby="hero-title">
+  <div class="hero__inner" data-recede>
+    <div class="hero__icon" data-enter style="--enter-step:0">
+      <IconShowcase size={128} />
+    </div>
+    <Headline
+      level={1}
+      titleId="hero-title"
+      size="mega"
+      eyebrow={t.hero.eyebrow}
+      title={t.hero.title}
+      lead={t.hero.lead}
+      accent
+      metal
+      motion="enter"
+      step={1}
+      class="hero__headline"
+    />
+    <div id="download" class="hero__download" data-enter style="--enter-step:5">
+      <HeroCta locale={locale} releases={releases} />
+    </div>
+  </div>
+</Stage>
+
+<style>
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero__icon {
+    margin-bottom: clamp(32px, 3.4vw, 44px);
+  }
+
+  .hero__headline {
+    margin-bottom: clamp(28px, 3vw, 40px);
+  }
+
+  .hero__download {
+    width: 100%;
+    scroll-margin-top: calc(var(--nav-h) + var(--s-6));
+  }
+</style>

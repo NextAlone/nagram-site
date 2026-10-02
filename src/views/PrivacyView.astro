@@ -1,0 +1,207 @@
+---
+import PageHero from '../components/sections/shared/PageHero.astro';
+import Icon from '../components/ui/Icon.astro';
+import IconTile from '../components/ui/IconTile.astro';
+import Section from '../components/ui/Section.astro';
+import { LINKS } from '../config/site';
+import { PRIVACY_GLYPHS } from '../data/glyphs';
+import { dicts, type Locale } from '../i18n';
+import Page from '../layouts/Page.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = dicts[locale];
+const p = t.privacy;
+const toc = [
+  ...p.sections.map((s) => ({ id: s.id, title: s.title, glyph: PRIVACY_GLYPHS[s.id] })),
+  { id: 'contact', title: p.contact.title, glyph: PRIVACY_GLYPHS.contact },
+];
+---
+
+<Page locale={locale} page="privacy/" title={`${p.title} · Nagram`} description={p.description} crumb={t.footer.privacy}>
+  <PageHero icon="privacy" tone="blue" title={p.title}>
+    <p class="updated">
+      <Icon name="calendar" />
+      <span>{p.updated}</span>
+    </p>
+  </PageHero>
+
+  <Section tone="base" pad="tight" class="legal-section">
+    <div class="legal">
+      <nav class="toc" aria-label={t.ui.onThisPage}>
+        <p class="toc__title">{t.ui.onThisPage}</p>
+        <ol role="list">
+          {
+            toc.map((entry) => (
+              <li>
+                <a href={`#${entry.id}`}>
+                  <IconTile icon={entry.glyph.icon} tone={entry.glyph.tone} size="xs" />
+                  <span>{entry.title}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+
+      <article class="doc">
+        <div class="doc__intro">
+          <p>{p.intro}</p>
+          <p>
+            {p.telegramPolicy} <a href={LINKS.telegramPrivacy}>{LINKS.telegramPrivacy}</a>
+          </p>
+        </div>
+        {
+          p.sections.map((section) => (
+            <section id={section.id} class="doc__section" aria-labelledby={`${section.id}-title`}>
+              <h2 id={`${section.id}-title`}>
+                <IconTile icon={PRIVACY_GLYPHS[section.id].icon} tone={PRIVACY_GLYPHS[section.id].tone} size="s" />
+                <span>{section.title}</span>
+              </h2>
+              {section.body.map((text) => (
+                <p>{text}</p>
+              ))}
+            </section>
+          ))
+        }
+        <section id="contact" class="doc__section" aria-labelledby="contact-title">
+          <h2 id="contact-title">
+            <IconTile icon={PRIVACY_GLYPHS.contact.icon} tone={PRIVACY_GLYPHS.contact.tone} size="s" />
+            <span>{p.contact.title}</span>
+          </h2>
+          <p>
+            {p.contact.body} <a href={LINKS.group}>{p.contact.link}</a>
+          </p>
+        </section>
+      </article>
+    </div>
+  </Section>
+</Page>
+
+<style>
+  .updated {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    margin-top: var(--s-5);
+    padding: 6px 14px;
+    border-radius: var(--r-pill);
+    background: var(--c-fill);
+    color: var(--c-text-2);
+    font-size: var(--t-footnote);
+  }
+
+  .legal-section {
+    padding-bottom: var(--section-pad);
+  }
+
+  .legal {
+    display: grid;
+    gap: var(--s-8);
+  }
+
+  .toc {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .legal {
+      grid-template-columns: 240px minmax(0, var(--w-text));
+      justify-content: center;
+      gap: var(--s-10);
+    }
+
+    .toc {
+      position: sticky;
+      top: calc(var(--nav-h) + var(--s-7));
+      display: block;
+      align-self: start;
+    }
+  }
+
+  .toc__title {
+    margin-bottom: var(--s-3);
+    color: var(--c-text-2);
+    font-size: var(--t-caption);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .toc a {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    padding: 7px var(--s-2);
+    margin-inline: calc(-1 * var(--s-2));
+    border-radius: var(--r-s);
+    color: var(--c-text);
+    font-size: var(--t-subhead);
+    text-decoration: none;
+    transition: background-color var(--d-fast) var(--ease);
+  }
+
+  .toc a:hover {
+    background: var(--c-fill);
+  }
+
+  .doc {
+    max-width: var(--w-text);
+    margin-inline: auto;
+    font-size: var(--t-body);
+    line-height: var(--lh-loose);
+  }
+
+  .doc p + p {
+    margin-top: var(--s-4);
+  }
+
+  .doc__intro {
+    padding-bottom: var(--s-7);
+    border-bottom: 1px solid var(--c-separator);
+    font-size: var(--t-lead);
+    line-height: 1.5;
+    letter-spacing: var(--tr-lead);
+  }
+
+  /* Links inside running text need more than color to stand out. */
+  .doc__intro a,
+  .doc__section a {
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  }
+
+  .doc__intro a:hover,
+  .doc__section a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .doc__section {
+    padding-block: var(--s-8);
+    border-bottom: 1px solid var(--c-separator);
+    scroll-margin-top: calc(var(--nav-h) + var(--s-4));
+  }
+
+  .doc__section:last-child {
+    border-bottom: 0;
+  }
+
+  .doc__section h2 {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    margin-bottom: var(--s-4);
+    font-size: var(--t-title-2);
+    line-height: 1.2;
+    letter-spacing: var(--tr-title);
+  }
+
+  .doc__section p {
+    color: var(--c-text);
+  }
+</style>

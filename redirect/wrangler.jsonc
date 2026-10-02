@@ -1,15 +1,8 @@
 {
   "$schema": "../node_modules/wrangler/config-schema.json",
-  "name": "nagram-dev-redirect",
-  "main": "./index.ts",
-  "compatibility_date": "2026-10-01",
-  "workers_dev": false,
-  "routes": [
-    // A zone route, for the same reason as the main site: the zone already has
-    // proxied apex records.
-    { "pattern": "nagram.dev/*", "zone_name": "nagram.dev" },
-    // The www hosts have no DNS records, so custom domains create them.
-    { "pattern": "www.nagram.app", "custom_domain": true },
-    { "pattern": "www.nagram.dev", "custom_domain": true }
-  ]
+  // nagram.dev, www.nagram.app and www.nagram.dev are custom domains of this
+  // project; it serves nothing but the forwarding rule in public/_redirects.
+  "name": "nagram-redirect",
+  "pages_build_output_dir": "./public",
+  "compatibility_date": "2026-10-01"
 }

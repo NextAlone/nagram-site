@@ -1,0 +1,48 @@
+---
+import { FEATURE_COLUMNS, FEATURE_GROUPS } from '../../../data/features';
+import { dicts, type Locale } from '../../../i18n';
+import Icon from '../../ui/Icon.astro';
+import FeatureGroup from './FeatureGroup.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const f = dicts[locale].featureList;
+---
+
+<div class="matrix">
+  <div class="matrix__groups">
+    {
+      FEATURE_GROUPS.map((group, i) => (
+        <FeatureGroup group={group} columns={FEATURE_COLUMNS} locale={locale} open={i === 0} />
+      ))
+    }
+  </div>
+  <p class="matrix__footnote">
+    <Icon name="info" class="matrix__info" />
+    <span>{f.footnote}</span>
+  </p>
+</div>
+
+<style>
+  .matrix__groups {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  .matrix__footnote {
+    display: flex;
+    gap: var(--s-2);
+    max-width: 48rem;
+    margin-top: var(--s-8);
+    color: var(--c-text-2);
+    font-size: var(--t-footnote);
+  }
+
+  .matrix__info {
+    --icon-size: 16px;
+    margin-top: 2px;
+  }
+</style>

@@ -45,26 +45,32 @@ export const en: Dict = {
     lead: 'These features are implemented in Nagram for Android, iOS and desktop. Entry points and details vary slightly by platform.',
     items: [
       {
+        id: 'translate',
         title: 'Multi-provider translation',
         body: 'Choose Google, Microsoft, Yandex and other services, or connect your own LLM endpoint with a custom prompt.',
       },
       {
+        id: 'filter',
         title: 'Message filters',
         body: 'Match messages by keyword or regular expression, then mask, collapse or hide them.',
       },
       {
+        id: 'repeat',
         title: 'Repeat and forward without quote',
         body: 'Repeat a message in one step, or forward it without the source.',
       },
       {
+        id: 'pangu',
         title: 'Pangu spacing',
         body: 'Insert spaces between CJK and Latin text or digits when sending, editing or reading.',
       },
       {
+        id: 'sponsored',
         title: 'Hide sponsored messages',
         body: 'Sponsored messages in channels are no longer shown.',
       },
       {
+        id: 'backup',
         title: 'Settings backup and sync',
         body: 'Export or sync your settings so a new device needs no reconfiguration.',
       },
@@ -101,24 +107,28 @@ export const en: Dict = {
     telegramPolicy: "You can review Telegram's Privacy Policy at",
     sections: [
       {
+        id: 'scope',
         title: 'Scope',
         body: [
           "This policy covers the Nagram client applications themselves and this website. When you use Nagram to connect to Telegram, your use of Telegram services is governed by Telegram's own terms and privacy practices.",
         ],
       },
       {
+        id: 'data',
         title: 'Data Collection',
         body: [
           "Nagram does not operate a separate messaging service. It is designed to work as a Telegram client. Any account, message, contact, media, or cloud data handled through Telegram is subject to Telegram's Privacy Policy.",
         ],
       },
       {
+        id: 'app',
         title: 'App Functionality',
         body: [
           'Nagram may store app preferences and local settings on your device to provide normal client functionality. These local settings are used by the app and are not a separate Telegram account database.',
         ],
       },
       {
+        id: 'services',
         title: 'Third-Party Services',
         body: [
           "Because Nagram connects to Telegram, Telegram is the primary third-party service involved in account and messaging functionality. Please review Telegram's policy for details about how Telegram processes data.",
@@ -126,12 +136,14 @@ export const en: Dict = {
         ],
       },
       {
+        id: 'website',
         title: 'This Website',
         body: [
           'This website sets no cookies and loads no advertising scripts. It is hosted on Cloudflare, which processes technical request data such as IP addresses in order to deliver the site. It uses Cloudflare Web Analytics to measure visits, which uses no cookies and does not track visitors across sites. Download links lead to GitHub, the App Store, TestFlight or Telegram, each of which applies its own privacy policy.',
         ],
       },
       {
+        id: 'changes',
         title: 'Changes',
         body: ["This page may be updated if Nagram's privacy practices change or if additional services are introduced."],
       },
@@ -143,7 +155,6 @@ export const en: Dict = {
     },
   },
   release: {
-    loading: 'Fetching version info…',
     unavailable: 'Version info unavailable',
     noRelease: 'No release yet',
     releasesPage: 'Releases page',
@@ -166,4 +177,18 @@ export const en: Dict = {
       'Nagram is an independent third-party client. It is not affiliated with, sponsored by or endorsed by Telegram (Telegram FZ-LLC and its affiliates). Telegram is a trademark of its respective owner.',
   },
   notFound: { title: 'Page not found', body: 'There is nothing at this address.', home: 'Back to home' },
+  ui: {
+    skipToContent: 'Skip to content',
+    mainNav: 'Main',
+    menu: 'Menu',
+    otherPlatforms: 'Other platforms',
+    seeAllFeatures: 'See the full feature list',
+    seeAllScreenshots: 'See all screenshots',
+    pause: 'Pause',
+    play: 'Play',
+    previous: 'Previous',
+    next: 'Next',
+    onThisPage: 'On this page',
+    breadcrumb: 'Breadcrumb',
+  },
 };

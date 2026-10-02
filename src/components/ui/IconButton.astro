@@ -1,0 +1,63 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import type { IconName } from '../../icons';
+import Icon from './Icon.astro';
+
+interface Props extends HTMLAttributes<'button'> {
+  icon: IconName;
+  label: string;
+  size?: 's' | 'm';
+}
+
+const { icon, label, size = 'm', class: className, ...rest } = Astro.props;
+---
+
+<button type="button" class:list={['icon-btn', `icon-btn--${size}`, className]} aria-label={label} {...rest}>
+  <Icon name={icon} stroke={2.25} />
+</button>
+
+<style>
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: var(--btn-size);
+    height: var(--btn-size);
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--c-fill);
+    color: var(--c-text-2);
+    font-size: var(--glyph);
+    cursor: pointer;
+    transition:
+      background-color var(--d-fast) var(--ease),
+      color var(--d-fast) var(--ease),
+      opacity var(--d-fast) var(--ease),
+      transform var(--d-fast) var(--ease);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .icon-btn--s {
+    --btn-size: 30px;
+    --glyph: 16px;
+  }
+
+  .icon-btn--m {
+    --btn-size: 40px;
+    --glyph: 20px;
+  }
+
+  .icon-btn:hover:not(:disabled) {
+    background: var(--c-fill-strong);
+    color: var(--c-text);
+  }
+
+  .icon-btn:active:not(:disabled) {
+    transform: scale(0.94);
+  }
+
+  .icon-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+</style>

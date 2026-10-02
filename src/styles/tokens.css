@@ -1,0 +1,276 @@
+/*
+  Design tokens. Components read only these custom properties, so a theme is
+  a change here rather than in component styles.
+*/
+
+:root {
+  color-scheme: light dark;
+
+  /* Surfaces */
+  --c-bg: #ffffff;
+  --c-bg-alt: #f5f5f7;
+  --c-bg-elevated: #ffffff;
+  --c-fill: rgb(120 120 128 / 0.12);
+  --c-fill-strong: rgb(120 120 128 / 0.2);
+
+  /* Text */
+  --c-text: #1d1d1f;
+  --c-text-2: #6e6e73;
+  --c-text-3: #86868b;
+
+  /* Lines */
+  --c-separator: rgb(0 0 0 / 0.1);
+  --c-separator-strong: #d2d2d7;
+  --c-hairline: rgb(0 0 0 / 0.06);
+
+  /* Interactive */
+  --c-accent: #0071e3;
+  --c-accent-hover: #0077ed;
+  --c-accent-active: #006edb;
+  --c-link: #0066cc;
+  --c-accent-tint: rgb(0 113 227 / 0.1);
+  --c-accent-tint-hover: rgb(0 113 227 / 0.16);
+  --c-on-accent: #ffffff;
+  --c-focus: rgb(0 125 250 / 0.6);
+  --c-selected: #ffffff;
+
+  /* Status */
+  --c-positive: #248a3d;
+  --c-warning: #b64400;
+
+  /* System tones, used by icon tiles and accents */
+  --tone-blue: #007aff;
+  --tone-indigo: #5856d6;
+  --tone-purple: #af52de;
+  --tone-pink: #ff2d55;
+  --tone-red: #ff3b30;
+  --tone-orange: #ff9500;
+  --tone-yellow: #ffcc00;
+  --tone-green: #34c759;
+  --tone-mint: #00c7be;
+  --tone-teal: #30b0c7;
+  --tone-cyan: #32ade6;
+  --tone-gray: #8e8e93;
+
+  /* Brand gradient, taken from the Nagram icon */
+  --brand-1: #2fb4ff;
+  --brand-2: #0a84ff;
+  --brand-3: #5e5ce6;
+
+  /* Stage: lit, always-dark sections that look the same in both schemes */
+  --stage-bg: #000000;
+  --stage-surface: #111113;
+  --stage-surface-2: #1d1d1f;
+  --stage-text: #f5f5f7;
+  --stage-text-2: #a1a1a6;
+  --stage-text-3: #6e6e73;
+  --stage-hairline: rgb(255 255 255 / 0.1);
+  --stage-link: #2997ff;
+  --glow-cyan: #36c3ff;
+  --glow-blue: #0a84ff;
+  --glow-indigo: #5e5ce6;
+  --glow-violet: #bf5af2;
+
+  /* Text fills: a quiet brand blue, and brushed metal for stages */
+  --fill-accent: linear-gradient(90deg, #8fd0ff 0%, #4aa8ff 45%, #2f7dff 100%);
+  --fill-metal: linear-gradient(180deg, #ffffff 0%, #f0f0f3 55%, #b9b9bf 100%);
+
+  /* Liquid glass */
+  --glass-fill: linear-gradient(180deg, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.05));
+  --glass-stroke: rgb(255 255 255 / 0.16);
+  --glass-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.3), inset 0 -1px 0 rgb(255 255 255 / 0.04), 0 30px 60px -20px rgb(0 0 0 / 0.6);
+
+  /* Materials */
+  --m-bar: rgb(255 255 255 / 0.76);
+  --m-bar-solid: rgb(255 255 255 / 0.96);
+  --m-sheet: rgb(255 255 255 / 0.9);
+  --m-blur: saturate(180%) blur(20px);
+
+  /* Type */
+  --font-sans:
+    system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', 'Segoe UI Variable Text',
+    'Segoe UI', Roboto, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei UI', 'Microsoft YaHei',
+    'Noto Sans CJK SC', 'Noto Sans SC', sans-serif;
+  --font-display:
+    system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', 'Segoe UI Variable Display',
+    'Segoe UI', Roboto, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei UI', 'Microsoft YaHei',
+    'Noto Sans CJK SC', 'Noto Sans SC', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+
+  --t-mega: clamp(2.75rem, 1rem + 6.2vw, 5.5rem);
+  --t-hero: clamp(2.75rem, 1rem + 6.6vw, 6rem);
+  --t-display: clamp(2.25rem, 1.05rem + 4.4vw, 4.5rem);
+  --t-title-1: clamp(1.75rem, 1.35rem + 1.6vw, 2.5rem);
+  --t-title-2: clamp(1.5rem, 1.35rem + 0.6vw, 1.75rem);
+  --t-title-3: 1.3125rem;
+  --t-lead: clamp(1.1875rem, 1.05rem + 0.55vw, 1.5rem);
+  --t-body: 1.0625rem;
+  --t-callout: 0.9375rem;
+  --t-subhead: 0.875rem;
+  --t-footnote: 0.8125rem;
+  --t-caption: 0.75rem;
+
+  --lh-tight: 1.07;
+  --lh-snug: 1.2;
+  --lh-body: 1.47;
+  --lh-loose: 1.6;
+
+  /* SF Pro tracking at each size; eased for CJK below */
+  --tr-mega: -0.03em;
+  --tr-hero: -0.025em;
+  --tr-display: -0.015em;
+  --tr-title: -0.003em;
+  --tr-title-3: 0.011em;
+  --tr-lead: 0.004em;
+  --tr-body: -0.022em;
+  --tr-small: -0.016em;
+  --tr-caption: -0.01em;
+
+  /* Space, 4px base */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-7: 32px;
+  --s-8: 40px;
+  --s-9: 48px;
+  --s-10: 64px;
+  --s-11: 80px;
+  --s-12: 120px;
+  --section-pad: clamp(72px, 8vw + 32px, 136px);
+
+  /* Layout */
+  --w-wide: 1240px;
+  --w-content: 1080px;
+  --w-text: 692px;
+  --gutter: clamp(20px, 4.5vw, 40px);
+  --nav-h: 48px;
+
+  /* Radii */
+  --r-xs: 6px;
+  --r-s: 10px;
+  --r-m: 14px;
+  --r-l: 20px;
+  --r-xl: 28px;
+  --r-pill: 999px;
+
+  /* Elevation */
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.04), 0 2px 8px rgb(0 0 0 / 0.04);
+  --shadow-2: 0 2px 8px rgb(0 0 0 / 0.04), 0 16px 40px rgb(0 0 0 / 0.08);
+  --shadow-3: 0 24px 64px rgb(0 0 0 / 0.16);
+  --ring-tile: inset 0 0 0 1px transparent;
+
+  /* Motion */
+  --ease: cubic-bezier(0.28, 0.11, 0.32, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-film: cubic-bezier(0.16, 1, 0.3, 1);
+  --d-fast: 160ms;
+  --d-base: 240ms;
+  --d-slow: 420ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-bg: #000000;
+    --c-bg-alt: #161617;
+    --c-bg-elevated: #1d1d1f;
+    --c-fill: rgb(118 118 128 / 0.24);
+    --c-fill-strong: rgb(118 118 128 / 0.32);
+
+    --c-text: #f5f5f7;
+    --c-text-2: #a1a1a6;
+    --c-text-3: #86868b;
+
+    --c-separator: rgb(255 255 255 / 0.14);
+    --c-separator-strong: #424245;
+    --c-hairline: rgb(255 255 255 / 0.08);
+
+    --c-accent: #0071e3;
+    --c-accent-hover: #0077ed;
+    --c-accent-active: #0068d1;
+    --c-link: #2997ff;
+    --c-accent-tint: rgb(41 151 255 / 0.16);
+    --c-accent-tint-hover: rgb(41 151 255 / 0.24);
+    --c-focus: rgb(41 151 255 / 0.7);
+    --c-selected: rgb(255 255 255 / 0.16);
+
+    --c-positive: #30d158;
+    --c-warning: #ff9f0a;
+
+    --tone-blue: #0a84ff;
+    --tone-indigo: #5e5ce6;
+    --tone-purple: #bf5af2;
+    --tone-pink: #ff375f;
+    --tone-red: #ff453a;
+    --tone-orange: #ff9f0a;
+    --tone-yellow: #ffd60a;
+    --tone-green: #30d158;
+    --tone-mint: #63e6e2;
+    --tone-teal: #40c8e0;
+    --tone-cyan: #64d2ff;
+    --tone-gray: #98989d;
+
+    --m-bar: rgb(22 22 23 / 0.76);
+    --m-bar-solid: rgb(22 22 23 / 0.96);
+    --m-sheet: rgb(22 22 23 / 0.9);
+
+    --shadow-1: none;
+    --shadow-2: 0 16px 40px rgb(0 0 0 / 0.5);
+    --shadow-3: 0 24px 64px rgb(0 0 0 / 0.6);
+    --ring-tile: inset 0 0 0 1px rgb(255 255 255 / 0.06);
+  }
+}
+
+/*
+  Stage scheme: re-themes everything inside, so buttons, links and cards
+  render for a dark backdrop in either color scheme.
+*/
+.theme-stage {
+  --c-bg: var(--stage-bg);
+  --c-bg-alt: var(--stage-surface);
+  --c-bg-elevated: var(--stage-surface-2);
+  --c-text: var(--stage-text);
+  --c-text-2: var(--stage-text-2);
+  --c-text-3: var(--stage-text-3);
+  --c-link: var(--stage-link);
+  --c-fill: rgb(118 118 128 / 0.24);
+  --c-fill-strong: rgb(118 118 128 / 0.36);
+  --c-separator: rgb(255 255 255 / 0.14);
+  --c-separator-strong: #424245;
+  --c-hairline: var(--stage-hairline);
+  --c-accent-tint: rgb(41 151 255 / 0.16);
+  --c-accent-tint-hover: rgb(41 151 255 / 0.26);
+  --c-focus: rgb(41 151 255 / 0.7);
+  --c-selected: rgb(255 255 255 / 0.16);
+  --c-warning: #ff9f0a;
+  --tile-bg: var(--stage-surface);
+  --ring-tile: inset 0 0 0 1px rgb(255 255 255 / 0.07);
+  --shadow-2: 0 18px 44px rgb(0 0 0 / 0.55);
+  --m-bar: rgb(18 18 20 / 0.72);
+  color-scheme: dark;
+  background: var(--stage-bg);
+  color: var(--stage-text);
+}
+
+/* PingFang and other CJK faces take only a little tightening at display sizes. */
+:root:lang(zh) {
+  --tr-mega: -0.012em;
+  --tr-hero: -0.01em;
+  --tr-display: -0.005em;
+  --tr-title: 0;
+  --tr-title-3: 0;
+  --tr-lead: 0;
+  --tr-body: 0;
+  --tr-small: 0;
+  --tr-caption: 0;
+  --lh-body: 1.6;
+}
+
+@media (min-width: 834px) {
+  :root {
+    --nav-h: 44px;
+  }
+}

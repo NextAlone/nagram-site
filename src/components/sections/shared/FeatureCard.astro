@@ -1,0 +1,53 @@
+---
+import type { Glyph } from '../../../data/glyphs';
+import IconTile from '../../ui/IconTile.astro';
+
+interface Props {
+  glyph: Glyph;
+  title: string;
+  body: string;
+}
+
+const { glyph, title, body } = Astro.props;
+---
+
+<article class="fcard">
+  <IconTile icon={glyph.icon} tone={glyph.tone} size="m" />
+  <div class="fcard__copy">
+    <h3 class="fcard__title">{title}</h3>
+    <p class="fcard__body">{body}</p>
+  </div>
+</article>
+
+<style>
+  /*
+    Cards in a row share the tallest one's height. The copy sits at the
+    bottom, so the extra height of a short card opens between icon and title
+    instead of collecting under the text.
+  */
+  .fcard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: clamp(var(--s-7), 3vw, var(--s-8));
+    width: 100%;
+    padding: clamp(26px, 2.8vw, 32px);
+    border-radius: clamp(22px, 2.4vw, 28px);
+    background: var(--tile-bg);
+    box-shadow: var(--ring-tile);
+  }
+
+  .fcard__title {
+    font-size: var(--t-title-3);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: var(--tr-title-3);
+  }
+
+  .fcard__body {
+    margin-top: var(--s-2);
+    color: var(--c-text-2);
+    font-size: var(--t-callout);
+    line-height: 1.55;
+  }
+</style>

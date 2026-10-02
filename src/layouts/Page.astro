@@ -1,7 +1,8 @@
 ---
+import Footer from '../components/layout/Footer.astro';
+import GlobalNav from '../components/layout/GlobalNav.astro';
+import type { Locale } from '../i18n';
 import Base from './Base.astro';
-import { PRODUCTS, repoUrl } from '../data/products';
-import { dicts, localePath, type Locale } from '../i18n';
 
 interface Props {
   locale: Locale;
@@ -9,71 +10,17 @@ interface Props {
   page?: string;
   title?: string;
   description?: string;
+  // Breadcrumb label for pages below the home page.
+  crumb?: string;
 }
 
-const { locale, page = '', title, description } = Astro.props;
-const t = dicts[locale];
-const other: Locale = locale === 'zh' ? 'en' : 'zh';
-
-const nav = [
-  { page: '', label: t.nav.products },
-  { page: 'features/', label: t.nav.features },
-  { page: 'screenshots/', label: t.nav.screenshots },
-];
-
-const links = {
-  channel: 'https://t.me/nagram_channel',
-  group: 'https://t.me/nagram_group',
-  nnngramChannel: 'https://t.me/Nnngram',
-};
+const { locale, page = '', title, description, crumb } = Astro.props;
 ---
 
 <Base locale={locale} page={page} title={title} description={description}>
-  <header class="site-header">
-    <a class="brand" href={localePath(locale)}>
-      <img src="/icons/nagram.png" alt="" width="28" height="28" />
-      <span>Nagram</span>
-    </a>
-    <nav>
-      {
-        nav.map((n) => (
-          <a href={localePath(locale, n.page)} aria-current={n.page === page ? 'page' : undefined}>
-            {n.label}
-          </a>
-        ))
-      }
-      <a class="lang" href={localePath(other, page)} lang={dicts[other].htmlLang} hreflang={dicts[other].htmlLang}>
-        {t.nav.switchLabel}
-      </a>
-    </nav>
-  </header>
-
-  <slot />
-
-  <footer class="site-footer">
-    <div class="footer-cols">
-      <div>
-        <h2>{t.footer.community}</h2>
-        <ul>
-          <li><a href={links.channel}>{t.footer.channel}</a></li>
-          <li><a href={links.group}>{t.footer.group}</a></li>
-          <li><a href={links.nnngramChannel}>{t.footer.nnngramChannel}</a></li>
-        </ul>
-      </div>
-      <div>
-        <h2>{t.footer.code}</h2>
-        <ul>
-          {PRODUCTS.map((p) => <li><a href={repoUrl(p.repo)}>{p.repo}</a></li>)}
-        </ul>
-      </div>
-      <div class="footer-wide">
-        <h2>{t.footer.license}</h2>
-        <p>{t.footer.licenseBody}</p>
-      </div>
-    </div>
-    <p class="disclaimer">
-      {t.footer.disclaimer}
-      <a href={localePath(locale, 'privacy/')}>{t.footer.privacy}</a>
-    </p>
-  </footer>
+  <GlobalNav locale={locale} page={page} />
+  <main id="main">
+    <slot />
+  </main>
+  <Footer locale={locale} page={page} crumb={crumb} />
 </Base>

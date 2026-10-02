@@ -1,0 +1,179 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends Omit<HTMLAttributes<'header'>, 'title'> {
+  title: string | readonly string[];
+  titleId?: string;
+  eyebrow?: string;
+  lead?: string;
+  level?: 1 | 2;
+  size?: 'mega' | 'hero' | 'display' | 'title';
+  align?: 'center' | 'start';
+  // Brand-blue fill on the last line.
+  accent?: boolean;
+  // Brushed-metal fill on the other lines; for stages.
+  metal?: boolean;
+  // enter: staggered rise on load (heroes); reveal: rise when scrolled to.
+  motion?: 'enter' | 'reveal' | 'none';
+  // Step of the first animated part, so a parent can continue the sequence.
+  step?: number;
+}
+
+const {
+  title,
+  titleId,
+  eyebrow,
+  lead,
+  level = 2,
+  size = 'display',
+  align = 'center',
+  accent = false,
+  metal = false,
+  motion = 'reveal',
+  step = 0,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const Heading = `h${level}` as 'h1' | 'h2';
+const lines = typeof title === 'string' ? [title] : [...title];
+let next = step;
+const enter = () => (motion === 'enter' ? { 'data-enter': '', style: `--enter-step:${next++}` } : {});
+const eyebrowMotion = eyebrow ? enter() : {};
+const lineMotion = lines.map(() => enter());
+const leadMotion = lead ? enter() : {};
+const actionsMotion = enter();
+---
+
+<header
+  class:list={['headline', `headline--${align}`, `headline--${size}`, className]}
+  data-reveal={motion === 'reveal' ? '' : undefined}
+  {...rest}
+>
+  {
+    eyebrow && (
+      <p class="headline__eyebrow" {...eyebrowMotion}>
+        {eyebrow}
+      </p>
+    )
+  }
+  <Heading id={titleId} class="headline__title">
+    {
+      lines.map((line, i) => {
+        const isAccent = accent && i === lines.length - 1;
+        return (
+          <span class="headline__line" {...lineMotion[i]}>
+            <span class:list={{ 'text-accent': isAccent, 'text-metal': metal && !isAccent }}>{line}</span>
+          </span>
+        );
+      })
+    }
+  </Heading>
+  {
+    lead && (
+      <p class="headline__lead" {...leadMotion}>
+        {lead}
+      </p>
+    )
+  }
+  {
+    Astro.slots.has('default') && (
+      <div class="headline__actions" {...actionsMotion}>
+        <slot />
+      </div>
+    )
+  }
+</header>
+
+<style>
+  .headline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+    margin-bottom: clamp(var(--s-9), 6vw, var(--s-11));
+  }
+
+  .headline--center {
+    align-items: center;
+    text-align: center;
+  }
+
+  .headline--start {
+    align-items: flex-start;
+  }
+
+  .headline__eyebrow {
+    color: var(--c-text-2);
+    font-size: clamp(1.1875rem, 1.05rem + 0.5vw, 1.5rem);
+    font-weight: 600;
+    letter-spacing: var(--tr-title-3);
+  }
+
+  .headline__title {
+    max-width: 18ch;
+    font-weight: 700;
+  }
+
+  .headline__line {
+    display: block;
+  }
+
+  .headline--mega .headline__title {
+    max-width: none;
+    font-size: var(--t-mega);
+    line-height: 1.02;
+    letter-spacing: var(--tr-mega);
+  }
+
+  .headline--hero .headline__title {
+    font-size: var(--t-hero);
+    line-height: 1.04;
+    letter-spacing: var(--tr-hero);
+  }
+
+  .headline--display .headline__title {
+    font-size: var(--t-display);
+    line-height: 1.06;
+    letter-spacing: var(--tr-display);
+  }
+
+  .headline--title .headline__title {
+    font-size: var(--t-title-1);
+    line-height: 1.12;
+    letter-spacing: var(--tr-title);
+  }
+
+  /* Keeps descenders inside the clip box of gradient-filled lines. */
+  .headline__title :global(.text-accent),
+  .headline__title :global(.text-metal) {
+    padding-bottom: 0.08em;
+  }
+
+  .headline__lead {
+    max-width: 36rem;
+    color: var(--c-text-2);
+    font-size: var(--t-lead);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: var(--tr-lead);
+    text-wrap: balance;
+  }
+
+  .headline--mega .headline__lead,
+  .headline--hero .headline__lead {
+    max-width: 40rem;
+  }
+
+  .headline__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-4) var(--s-7);
+    margin-top: var(--s-2);
+    font-size: var(--t-body);
+  }
+
+  .headline--center .headline__actions {
+    justify-content: center;
+  }
+</style>

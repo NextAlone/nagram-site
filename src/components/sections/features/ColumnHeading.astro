@@ -1,0 +1,61 @@
+---
+import type { ProductId } from '../../../data/products';
+import AppIcon from '../../brand/AppIcon.astro';
+import PlatformMark from '../../brand/PlatformMark.astro';
+import Icon from '../../ui/Icon.astro';
+
+interface Props {
+  id: ProductId;
+  short: string;
+}
+
+const { id, short } = Astro.props;
+---
+
+<span class="column">
+  {
+    id === 'nnngram' ? (
+      <AppIcon id="nnngram" size={22} />
+    ) : id === 'nagram-desktop' ? (
+      <Icon name="desktop" class="column__glyph column__glyph--line" stroke={1.6} />
+    ) : (
+      <PlatformMark name={id === 'nagram-ios' ? 'apple' : 'android'} class="column__glyph" />
+    )
+  }
+  <span class="column__label">{short}</span>
+</span>
+
+<style>
+  .column {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+  }
+
+  .column__glyph {
+    --icon-size: 22px;
+    --mark-size: 22px;
+  }
+
+  /* Line icons sit inside padding that filled marks do not have. */
+  .column__glyph--line {
+    --icon-size: 26px;
+    margin-block: -2px;
+  }
+
+  .column__label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 599px) {
+    .column__label {
+      font-size: 10px;
+      letter-spacing: -0.02em;
+    }
+  }
+</style>

@@ -1,0 +1,82 @@
+---
+import IconShowcase from '../components/brand/IconShowcase.astro';
+import Button from '../components/ui/Button.astro';
+import Stage from '../components/ui/Stage.astro';
+import { dicts } from '../i18n';
+import Base from '../layouts/Base.astro';
+
+// One static 404 page serves every path, so it carries both languages.
+const { zh, en } = dicts;
+---
+
+<Base locale="zh" title={`${zh.notFound.title} · Nagram`} noindex>
+  <main id="main" class="not-found">
+    <Stage light="hero" pad="hero" fill class="not-found__stage">
+      <div class="not-found__inner">
+        <IconShowcase size={112} />
+        <h1 class="not-found__code">
+          <span class="text-metal">404</span>
+        </h1>
+        <p class="not-found__text">{zh.notFound.title}。{zh.notFound.body}</p>
+        <p class="not-found__text not-found__text--en" lang="en">
+          {en.notFound.title}. {en.notFound.body}
+        </p>
+        <div class="not-found__actions">
+          <Button href="/" icon="home" size="l">{zh.notFound.home}</Button>
+          <Button href="/en/" variant="secondary" size="l" lang="en">{en.notFound.home}</Button>
+        </div>
+      </div>
+    </Stage>
+  </main>
+</Base>
+
+<style>
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    background: var(--stage-bg);
+  }
+
+  .not-found__stage {
+    flex: 1;
+    min-height: 100svh;
+  }
+
+  .not-found__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s-4);
+    text-align: center;
+  }
+
+  .not-found__code {
+    margin-top: var(--s-8);
+    font-size: clamp(5rem, 14vw, 9rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .not-found__text {
+    font-size: var(--t-lead);
+    font-weight: 500;
+  }
+
+  .not-found__text--en {
+    margin-top: calc(-1 * var(--s-2));
+    color: var(--c-text-2);
+    font-size: var(--t-body);
+    font-weight: 400;
+    letter-spacing: -0.022em;
+  }
+
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--s-3);
+    margin-top: var(--s-6);
+  }
+</style>

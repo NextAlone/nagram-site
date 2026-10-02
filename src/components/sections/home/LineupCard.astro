@@ -1,0 +1,170 @@
+---
+import { LINK_ICONS, PRODUCT_PLATFORM_ICONS } from '../../../data/glyphs';
+import { releasesPageUrl, repoUrl, type Product, type ReleaseInfo } from '../../../data/products';
+import { dicts, type Locale } from '../../../i18n';
+import { downloadLink, releaseLabel } from '../../../lib/downloads';
+import AppIcon from '../../brand/AppIcon.astro';
+import Button from '../../ui/Button.astro';
+import Icon from '../../ui/Icon.astro';
+import TextLink from '../../ui/TextLink.astro';
+
+interface Props {
+  product: Product;
+  info: ReleaseInfo;
+  locale: Locale;
+}
+
+const { product, info, locale } = Astro.props;
+const t = dicts[locale];
+const copy = t.products.items[product.id];
+const version = releaseLabel(info, t.release);
+// Stable and beta are told apart only where a product offers both.
+const prefix = product.links?.some((l) => l.kind === 'beta') ? t.release.stable : t.release.download;
+const downloads = product.downloads.map((d) => ({ ...d, ...downloadLink(d.platform, info) }));
+---
+
+<article class="lcard" id={product.id}>
+  <AppIcon id={product.icon} size={88} class="lcard__icon" />
+  <h3 class="lcard__name">{product.name}</h3>
+  <p class="lcard__platform">
+    <Icon name={PRODUCT_PLATFORM_ICONS[product.id]} />
+    <span>{copy.platform}</span>
+  </p>
+  <p class="lcard__tagline">{copy.tagline}</p>
+  <p class="lcard__version">
+    <span class="lcard__version-label">{t.products.version}</span>
+    <span
+      class:list={['lcard__version-value', `lcard__version-value--${version.tone}`]}
+      title={info.status === 'error' ? info.error : undefined}
+    >
+      {version.text}
+    </span>
+  </p>
+  <div class="lcard__actions">
+    {
+      downloads.map((d, i) => (
+        <Button
+          href={d.href}
+          variant={d.fallback ? 'fallback' : i === 0 ? 'primary' : 'tinted'}
+          icon={d.fallback ? undefined : 'download'}
+          title={d.fallback ? version.text : undefined}
+          block
+        >
+          {prefix} · {d.label}
+        </Button>
+      ))
+    }
+    {
+      product.links?.map((l) => (
+        <Button href={l.url} variant="tinted" icon={LINK_ICONS[l.kind]} block>
+          {t.release.links[l.kind]}
+        </Button>
+      ))
+    }
+  </div>
+  <div class="lcard__links">
+    {
+      product.source.type === 'github' && (
+        <TextLink href={releasesPageUrl(product)} affordance="external">
+          {t.release.releasesPage}
+        </TextLink>
+      )
+    }
+    <TextLink href={repoUrl(product.repo)} affordance="external">
+      {t.products.source}
+    </TextLink>
+  </div>
+</article>
+
+<style>
+  /* Rows line up across the lineup through the parent's subgrid. */
+  .lcard {
+    display: grid;
+    grid-row: span 7;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+    justify-items: center;
+    align-content: start;
+    padding: clamp(var(--s-8), 3.4vw, var(--s-10)) clamp(var(--s-5), 2.2vw, var(--s-7));
+    border-radius: clamp(24px, 2.6vw, 30px);
+    background: var(--tile-bg);
+    box-shadow: var(--ring-tile);
+    text-align: center;
+    scroll-snap-align: start;
+    scroll-margin-top: calc(var(--nav-h) + var(--s-5));
+  }
+
+  .lcard__icon {
+    width: clamp(72px, 8vw, 88px);
+    height: auto;
+  }
+
+  .lcard__name {
+    margin-top: var(--s-6);
+    font-size: var(--t-title-2);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: var(--tr-title);
+  }
+
+  .lcard__platform {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: var(--s-2);
+    color: var(--c-text-2);
+    font-size: var(--t-subhead);
+  }
+
+  .lcard__tagline {
+    max-width: 30ch;
+    margin-top: var(--s-5);
+    color: var(--c-text-2);
+    font-size: var(--t-callout);
+    line-height: 1.55;
+  }
+
+  .lcard__version {
+    display: grid;
+    gap: 2px;
+    align-self: end;
+    margin-top: var(--s-7);
+  }
+
+  .lcard__version-label {
+    color: var(--c-text-3);
+    font-size: var(--t-caption);
+  }
+
+  .lcard__version-value {
+    font-size: var(--t-body);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lcard__version-value--muted {
+    color: var(--c-text-2);
+    font-weight: 500;
+  }
+
+  .lcard__version-value--warning {
+    color: var(--c-warning);
+  }
+
+  .lcard__actions {
+    display: grid;
+    align-content: start;
+    gap: var(--s-3);
+    width: 100%;
+    margin-top: var(--s-6);
+  }
+
+  .lcard__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--s-2) var(--s-5);
+    margin-top: var(--s-5);
+    font-size: var(--t-subhead);
+  }
+</style>

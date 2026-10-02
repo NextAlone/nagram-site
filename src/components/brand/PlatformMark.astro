@@ -1,0 +1,80 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import type { PlatformMarkName } from '../../data/platforms';
+import Icon from '../ui/Icon.astro';
+
+interface Props extends Omit<HTMLAttributes<'svg'>, 'name' | 'stroke'> {
+  name: PlatformMarkName;
+  size?: string;
+}
+
+// The Apple and Android marks come from the brand icon set. The Windows mark is
+// four squares drawn here, the Mac mark puts the Apple logo on a laptop outline
+// so it differs from iOS, and Linux uses the colored Tux (credit in tux.svg).
+const APPLE =
+  'M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701';
+
+const { name, size, class: className, ...rest } = Astro.props;
+// Without a size prop, a parent sets --mark-size through the class it passes.
+const style = size ? `--mark-size:${size}` : undefined;
+---
+
+{
+  name === 'linux' ? (
+    <img
+      class:list={['mark', 'mark--linux', className]}
+      style={style}
+      src="/icons/tux.svg"
+      alt=""
+      {...(rest as HTMLAttributes<'img'>)}
+    />
+  ) : name === 'windows' ? (
+    <svg class:list={['mark', className]} style={style} viewBox="0 0 24 24" aria-hidden="true" {...rest}>
+      <path fill="#f25022" d="M0 0h11.4v11.4H0z" />
+      <path fill="#7fba00" d="M12.6 0H24v11.4H12.6z" />
+      <path fill="#00a4ef" d="M0 12.6h11.4V24H0z" />
+      <path fill="#ffb900" d="M12.6 12.6H24V24H12.6z" />
+    </svg>
+  ) : name === 'mac' ? (
+    <svg
+      class:list={['mark', className]}
+      style={style}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      {...rest}
+    >
+      <rect x="3" y="2.5" width="18" height="13.5" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.8" />
+      <path d="M1.4 20h21.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      <path d={APPLE} transform="translate(8.1 5.35) scale(0.325)" />
+    </svg>
+  ) : (
+    <Icon
+      name={name}
+      class:list={['mark', `mark--${name}`, className]}
+      style={style}
+      size="var(--mark-size, 40px)"
+      {...rest}
+    />
+  )
+}
+
+<style>
+  .mark {
+    flex: none;
+    width: var(--mark-size, 40px);
+    height: var(--mark-size, 40px);
+    object-fit: contain;
+  }
+
+  .mark--android {
+    color: #3ddc84;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    /* Tux has a black body, which needs a light edge on dark surfaces. */
+    .mark--linux {
+      filter: drop-shadow(0 0 1px rgb(255 255 255 / 0.75));
+    }
+  }
+</style>

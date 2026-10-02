@@ -1,0 +1,38 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'nav'> {
+  label: string;
+}
+
+const { label, class: className, ...rest } = Astro.props;
+---
+
+<nav class:list={['segmented', className]} aria-label={label} {...rest}>
+  <ul role="list">
+    <slot />
+  </ul>
+</nav>
+
+<style>
+  .segmented {
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .segmented::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Wider than the screen it scrolls rather than squeezing its segments. */
+  ul {
+    display: inline-flex;
+    width: max-content;
+    gap: 2px;
+    padding: 3px;
+    border-radius: var(--r-pill);
+    background: var(--c-fill);
+  }
+</style>

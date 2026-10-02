@@ -1,0 +1,84 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import IconButton from './IconButton.astro';
+
+interface Props extends HTMLAttributes<'div'> {
+  // Accessible name of the list of items.
+  label: string;
+  labels: { previous: string; next: string };
+  // Width of one item; the rail peeks the next item at the edge.
+  item?: string;
+  gap?: string;
+}
+
+const {
+  label,
+  labels,
+  item = 'min(86vw, 600px)',
+  gap = 'var(--s-5)',
+  class: className,
+  style,
+  ...rest
+} = Astro.props;
+const vars = `--reel-item:${item};--reel-gap:${gap}`;
+---
+
+<div
+  class:list={['reel', className]}
+  style={typeof style === 'string' ? `${vars};${style}` : vars}
+  data-reel
+  {...rest}
+>
+  <ul class="reel__rail" role="list" aria-label={label} data-reel-rail>
+    <slot />
+  </ul>
+  <div class="reel__paddles container">
+    <IconButton icon="chevron-left" label={labels.previous} data-reel-prev disabled />
+    <IconButton icon="chevron-right" label={labels.next} data-reel-next />
+  </div>
+</div>
+
+<script>
+  import '../../scripts/reel';
+</script>
+
+<style>
+  /* Items line up with the page content while the rail runs edge to edge. */
+  .reel {
+    --reel-inset: max(var(--gutter), (100% - var(--w-content)) / 2);
+  }
+
+  .reel__rail {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: var(--reel-item);
+    gap: var(--reel-gap);
+    padding: var(--s-2) var(--reel-inset) var(--s-6);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-padding-inline: var(--reel-inset);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .reel__rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .reel__rail > :global(li) {
+    display: flex;
+    scroll-snap-align: start;
+  }
+
+  .reel__paddles {
+    display: none;
+    justify-content: flex-end;
+    gap: var(--s-3);
+  }
+
+  @media (hover: hover) and (min-width: 834px) {
+    .reel[data-scrollable] .reel__paddles {
+      display: flex;
+    }
+  }
+</style>

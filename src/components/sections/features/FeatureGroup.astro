@@ -1,0 +1,180 @@
+---
+import type { FeatureGroup } from '../../../data/features';
+import { FEATURE_GROUP_GLYPHS } from '../../../data/glyphs';
+import type { ProductId } from '../../../data/products';
+import { dicts, type Locale } from '../../../i18n';
+import Badge from '../../ui/Badge.astro';
+import Disclosure from '../../ui/Disclosure.astro';
+import IconTile from '../../ui/IconTile.astro';
+import ColumnHeading from './ColumnHeading.astro';
+
+interface Props {
+  group: FeatureGroup;
+  columns: { id: ProductId; name: string; short: string }[];
+  locale: Locale;
+  open?: boolean;
+}
+
+const { group, columns, locale, open = false } = Astro.props;
+const f = dicts[locale].featureList;
+const glyph = FEATURE_GROUP_GLYPHS[group.id];
+---
+
+<Disclosure open={open} class="group" id={`group-${group.id}`}>
+  <Fragment slot="summary">
+    <IconTile icon={glyph.icon} tone={glyph.tone} size="s" />
+    <h2 class="group__title">{group[locale]}</h2>
+    <Badge class="group__count">{group.rows.length}</Badge>
+  </Fragment>
+  <table class="group__table">
+    <colgroup>
+      <col />
+      {columns.map(() => <col class="group__col" />)}
+    </colgroup>
+    <thead>
+      <tr>
+        <th scope="col" class="group__corner">{f.feature}</th>
+        {
+          columns.map((c) => (
+            <th scope="col" class="group__head" title={c.name}>
+              <ColumnHeading id={c.id} short={c.short} />
+            </th>
+          ))
+        }
+      </tr>
+    </thead>
+    <tbody>
+      {
+        group.rows.map((row) => (
+          <tr>
+            <th scope="row" class="group__feature">
+              <span>{row[locale]}</span>
+              {row.note && <small>{row.note[locale]}</small>}
+            </th>
+            {columns.map((c) =>
+              row.on.includes(c.id) ? (
+                <td class="cell cell--yes">
+                  <span class="visually-hidden">{f.supported}</span>
+                </td>
+              ) : (
+                <td class="cell cell--no">
+                  <span class="visually-hidden">{f.unsupported}</span>
+                </td>
+              ),
+            )}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</Disclosure>
+
+<style>
+  .group {
+    --col-w: clamp(48px, 10vw, 112px);
+    --pad: clamp(var(--s-3), 2.4vw, var(--s-6));
+    scroll-margin-top: calc(var(--nav-h) + var(--s-4));
+  }
+
+  .group__title {
+    font-size: var(--t-title-3);
+    line-height: 1.25;
+    letter-spacing: var(--tr-title-3);
+  }
+
+  .group__table {
+    width: calc(100% - 2 * var(--pad));
+    margin: 0 var(--pad) var(--s-3);
+    table-layout: fixed;
+    font-size: var(--t-callout);
+  }
+
+  .group__col {
+    width: var(--col-w);
+  }
+
+  thead th {
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 1;
+    padding: var(--s-3) 0;
+    border-bottom: 1px solid var(--c-separator);
+    background: var(--tile-bg, var(--c-bg-alt));
+    color: var(--c-text-2);
+    font-size: var(--t-caption);
+    font-weight: 600;
+    vertical-align: bottom;
+  }
+
+  .group__corner {
+    text-align: start;
+  }
+
+  .group__feature {
+    padding: var(--s-3) var(--s-3) var(--s-3) 0;
+    font-weight: 400;
+    text-align: start;
+    vertical-align: middle;
+  }
+
+  .group__feature small {
+    display: block;
+    margin-top: 2px;
+    color: var(--c-text-2);
+    font-size: var(--t-footnote);
+  }
+
+  tbody tr + tr > * {
+    border-top: 1px solid var(--c-separator);
+  }
+
+  .cell {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .cell::before {
+    content: '';
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    vertical-align: middle;
+    background: currentColor;
+    -webkit-mask: var(--mark) center / contain no-repeat;
+    mask: var(--mark) center / contain no-repeat;
+  }
+
+  .cell--yes {
+    --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm4.03 6.47a.75.75 0 0 0-1.06.06l-4.2 4.73-1.74-1.74a.75.75 0 1 0-1.06 1.06l2.3 2.3a.75.75 0 0 0 1.09-.03l4.73-5.32a.75.75 0 0 0-.06-1.06Z'/%3E%3C/svg%3E");
+    color: var(--c-accent);
+  }
+
+  .cell--no {
+    --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='7' y='11' width='10' height='2' rx='1'/%3E%3C/svg%3E");
+    color: var(--c-text-3);
+    opacity: 0.6;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .cell--yes {
+      color: var(--c-link);
+    }
+  }
+
+  @media (hover: hover) {
+    tbody tr:hover > * {
+      background: var(--c-fill);
+    }
+  }
+
+  @media (max-width: 599px) {
+    .group__table {
+      font-size: var(--t-subhead);
+    }
+
+    .cell::before {
+      width: 20px;
+      height: 20px;
+    }
+  }
+</style>

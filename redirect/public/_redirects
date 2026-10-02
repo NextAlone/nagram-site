@@ -1,0 +1,2 @@
+# Every path forwards to the canonical site; Pages carries the query string along.
+/* https://nagram.app/:splat 301

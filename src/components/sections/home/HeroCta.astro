@@ -1,0 +1,96 @@
+---
+import { DOWNLOAD_ANCHOR } from '../../../config/site';
+import { DOWNLOAD_PLATFORMS } from '../../../data/platforms';
+import { PRODUCTS, type ReleasesResponse } from '../../../data/products';
+import { dicts, type Locale } from '../../../i18n';
+import { downloadLink, releaseLabel } from '../../../lib/downloads';
+import Button from '../../ui/Button.astro';
+import DetectedMarker from '../../ui/DetectedMarker.astro';
+import TextLink from '../../ui/TextLink.astro';
+
+interface Props {
+  locale: Locale;
+  releases: ReleasesResponse;
+}
+
+const { locale, releases } = Astro.props;
+const t = dicts[locale];
+const lineup = `#${DOWNLOAD_ANCHOR}`;
+const choices = DOWNLOAD_PLATFORMS.map((p) => {
+  const product = PRODUCTS.find((x) => x.id === p.product)!;
+  const info = releases.products[p.product];
+  return { ...p, product, ...downloadLink(p.platform, info), status: releaseLabel(info, t.release) };
+});
+---
+
+<div class="cta" role="group" aria-label={t.hero.downloadsLabel}>
+  <p id="cta-detected" class="visually-hidden">{t.hero.detected}</p>
+  <div class="cta__row">
+    {
+      choices.map((c) => (
+        <Button
+          href={c.href}
+          size="l"
+          variant={c.fallback ? 'fallback' : 'primary'}
+          icon={c.fallback ? undefined : 'download'}
+          class="cta__pick"
+          data-platforms={c.platform}
+          aria-describedby="cta-detected"
+        >
+          {t.release.download} · {c.label}
+        </Button>
+      ))
+    }
+    <Button href={lineup} size="l" icon="download" class="cta__any">
+      {t.release.download}
+    </Button>
+    <TextLink href={lineup} class="cta__more">{t.ui.otherPlatforms}</TextLink>
+  </div>
+  {
+    choices.map((c) => (
+      <p class:list={['cta__meta', `cta__meta--${c.status.tone}`]} data-platforms={c.platform}>
+        {c.product.name} · {c.status.text}
+      </p>
+    ))
+  }
+  <DetectedMarker />
+</div>
+
+<style>
+  .cta {
+    display: grid;
+    justify-items: center;
+    gap: var(--s-4);
+  }
+
+  .cta__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-4) var(--s-7);
+  }
+
+  /* Only the download for the detected system shows; without one, a plain
+     download button leads to the lineup instead. */
+  .cta .cta__pick:not([data-detected]),
+  .cta__meta:not([data-detected]),
+  .cta:has(.cta__pick[data-detected]) .cta__any,
+  .cta:not(:has(.cta__pick[data-detected])) .cta__more {
+    display: none;
+  }
+
+  .cta__more {
+    font-size: var(--t-body);
+  }
+
+  .cta__meta {
+    color: var(--c-text-3);
+    font-size: var(--t-footnote);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cta__meta--warning {
+    color: var(--c-warning);
+  }
+</style>

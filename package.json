@@ -8,14 +8,17 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro build && wrangler dev",
-    "types": "wrangler types",
-    "check": "wrangler types && tsc --noEmit && tsc -p worker",
-    "deploy": "astro build && wrangler deploy",
-    "deploy:redirect": "wrangler deploy --config redirect/wrangler.jsonc"
+    "preview": "astro build && wrangler pages dev",
+    "check": "astro check",
+    "deploy": "astro build && wrangler pages deploy",
+    "deploy:redirect": "wrangler pages deploy --cwd redirect"
   },
   "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@types/node": "^24.19.0",
     "astro": "^7.3.5",
+    "lucide": "1.48.0",
+    "sharp": "^0.35.5",
     "typescript": "^5.9.0",
     "wrangler": "^4.145.0"
   },

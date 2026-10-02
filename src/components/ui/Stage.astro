@@ -1,0 +1,99 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'section'> {
+  // Light falling on the stage: from above for heroes, centered behind the
+  // content, rising from below, or none.
+  light?: 'hero' | 'center' | 'low' | 'none';
+  width?: 'content' | 'wide' | 'text';
+  pad?: 'hero' | 'normal' | 'tight';
+  // Fill the first screen below the navigation bar.
+  fill?: boolean;
+}
+
+const {
+  light = 'center',
+  width = 'content',
+  pad = 'normal',
+  fill = false,
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<section class:list={['stage', 'theme-stage', `stage--pad-${pad}`, { 'stage--fill': fill }, className]} {...rest}>
+  {light !== 'none' && <div class:list={['stage__light', `stage__light--${light}`]} aria-hidden="true" />}
+  <div
+    class:list={[
+      'container',
+      'stage__content',
+      { 'container--wide': width === 'wide', 'container--text': width === 'text' },
+    ]}
+  >
+    <slot />
+  </div>
+  <slot name="bleed" />
+</section>
+
+<style>
+  .stage {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+  }
+
+  .stage--pad-hero {
+    padding-block: clamp(40px, 4.4vw, 64px) clamp(48px, 5vw, 72px);
+  }
+
+  .stage--pad-normal {
+    padding-block: var(--section-pad);
+  }
+
+  .stage--pad-tight {
+    padding-block: calc(var(--section-pad) * 0.6);
+  }
+
+  .stage--fill {
+    display: grid;
+    align-content: center;
+    min-height: calc(100svh - var(--nav-h));
+  }
+
+  .stage__content {
+    position: relative;
+  }
+
+  /* One soft source of light, painted as gradients rather than blurred shapes. */
+  .stage__light {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .stage__light--hero {
+    background:
+      radial-gradient(60rem 30rem at 50% -8rem, rgb(10 132 255 / 0.22), transparent 70%),
+      radial-gradient(34rem 22rem at 50% 6rem, rgb(120 170 255 / 0.1), transparent 70%);
+  }
+
+  .stage__light--center {
+    background: radial-gradient(56rem 32rem at 50% 50%, rgb(10 132 255 / 0.1), transparent 70%);
+  }
+
+  .stage__light--low {
+    background: radial-gradient(64rem 28rem at 50% 115%, rgb(10 132 255 / 0.16), transparent 70%);
+  }
+
+  /* A faint horizon where the stage floor would be. */
+  .stage__light--hero::after {
+    content: '';
+    position: absolute;
+    right: 12%;
+    bottom: 0;
+    left: 12%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.14), transparent);
+  }
+</style>

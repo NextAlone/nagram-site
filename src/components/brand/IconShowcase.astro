@@ -1,0 +1,102 @@
+---
+import { getImage } from 'astro:assets';
+import nagram from '../../assets/brand/nagram.png';
+import AppIcon from './AppIcon.astro';
+
+interface Props {
+  // Largest rendered size in CSS pixels; smaller screens scale it down.
+  size: number;
+  alt?: string;
+}
+
+const { size, alt = 'Nagram' } = Astro.props;
+// The sheen is masked to the icon's own silhouette.
+const mask = await getImage({ src: nagram, width: size * 2, height: size * 2, format: 'webp' });
+---
+
+<div class="showcase" style={`--size:${size}px;--mask:url(${mask.src})`}>
+  <div class="showcase__halo" aria-hidden="true"></div>
+  <div class="showcase__body">
+    <AppIcon id="nagram" size={size} alt={alt} priority class="showcase__icon" />
+    <span class="showcase__sheen" aria-hidden="true"></span>
+  </div>
+</div>
+
+<style>
+  .showcase {
+    --s: clamp(104px, 26vw, var(--size));
+    position: relative;
+    width: var(--s);
+    height: var(--s);
+  }
+
+  .showcase__halo {
+    position: absolute;
+    inset: -55%;
+    z-index: -1;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(10 132 255 / 0.3), rgb(10 132 255 / 0.06) 60%, transparent);
+  }
+
+  .showcase__body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .showcase__icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 28px 36px rgb(0 40 120 / 0.45));
+    /* A glossy floor under the icon, in browsers that support reflections. */
+    -webkit-box-reflect: below calc(var(--s) * 0.08) linear-gradient(transparent 70%, rgb(255 255 255 / 0.1));
+  }
+
+  .showcase__sheen {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    -webkit-mask: var(--mask) center / contain no-repeat;
+    mask: var(--mask) center / contain no-repeat;
+  }
+
+  .showcase__sheen::before {
+    content: '';
+    position: absolute;
+    inset: -30% -80%;
+    background: linear-gradient(
+      105deg,
+      transparent 44%,
+      rgb(255 255 255 / 0.1) 48%,
+      rgb(255 255 255 / 0.38) 50%,
+      rgb(255 255 255 / 0.1) 52%,
+      transparent 56%
+    );
+    transform: translateX(-60%);
+  }
+
+  /* Light passes over the glass once, after the page has settled. */
+  @media (prefers-reduced-motion: no-preference) {
+    .showcase__body {
+      animation: float 9s ease-in-out infinite;
+    }
+
+    .showcase__sheen::before {
+      animation: sheen 2.4s var(--ease) 1.2s 1 both;
+    }
+  }
+
+  @keyframes float {
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes sheen {
+    to {
+      transform: translateX(60%);
+    }
+  }
+</style>

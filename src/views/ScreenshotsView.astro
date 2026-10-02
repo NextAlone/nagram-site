@@ -1,0 +1,162 @@
+---
+import AppIcon from '../components/brand/AppIcon.astro';
+import Gallery from '../components/sections/shared/Gallery.astro';
+import PageHero from '../components/sections/shared/PageHero.astro';
+import DetectedMarker from '../components/ui/DetectedMarker.astro';
+import Section from '../components/ui/Section.astro';
+import SegmentedControl from '../components/ui/SegmentedControl.astro';
+import SegmentedItem from '../components/ui/SegmentedItem.astro';
+import { PRODUCTS_FOR_PLATFORM, type Platform } from '../data/platforms';
+import { PRODUCTS, type ProductId } from '../data/products';
+import { dicts, type Locale } from '../i18n';
+import Page from '../layouts/Page.astro';
+import { isPortrait, screenshotsFor } from '../lib/screenshots';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = dicts[locale];
+const s = t.screenshots;
+
+const platformsFor = (id: ProductId) =>
+  (Object.entries(PRODUCTS_FOR_PLATFORM) as [Platform, ProductId[]][])
+    .filter(([, ids]) => ids.includes(id))
+    .map(([platform]) => platform)
+    .join(' ');
+
+const groups = PRODUCTS.map((product) => ({
+  product,
+  shots: screenshotsFor(product.id, s.slots[product.id]),
+  portrait: isPortrait(product.id),
+  platforms: platformsFor(product.id),
+  anchor: `shots-${product.id}`,
+}));
+---
+
+<Page locale={locale} page="screenshots/" title={`${s.title} · Nagram`} description={s.description} crumb={s.title}>
+  <PageHero icon="screenshots" tone="indigo" title={s.title} lead={s.lead} />
+  <div class="shots" data-shots>
+    <div class="shots__bar">
+      <div class="container shots__switcher">
+        <p class="shots__label" aria-hidden="true">{s.others}</p>
+        <SegmentedControl label={s.others}>
+          {
+            groups.map((g) => (
+              <SegmentedItem href={`#${g.anchor}`} data-shot-tab={g.product.id}>
+                <AppIcon slot="icon" id={g.product.icon} size={20} />
+                {g.product.name}
+              </SegmentedItem>
+            ))
+          }
+        </SegmentedControl>
+      </div>
+    </div>
+    {
+      groups.map((g) => (
+        <Section
+          tone="base"
+          pad="tight"
+          id={g.anchor}
+          class="shot-group"
+          data-shot-group={g.product.id}
+          data-platforms={g.platforms}
+          aria-labelledby={`${g.anchor}-title`}
+        >
+          <header class="shot-group__head">
+            <AppIcon id={g.product.icon} size={48} />
+            <div>
+              <h2 id={`${g.anchor}-title`} class="shot-group__title">
+                {g.product.name}
+              </h2>
+              <p class="shot-group__platform">{t.products.items[g.product.id].platform}</p>
+            </div>
+          </header>
+          <Gallery
+            slot="bleed"
+            shots={g.shots}
+            productName={g.product.name}
+            portrait={g.portrait}
+            labels={{
+              previous: t.ui.previous,
+              next: t.ui.next,
+              pending: s.pending,
+              region: `${g.product.name} · ${s.title}`,
+            }}
+          />
+        </Section>
+      ))
+    }
+    <DetectedMarker />
+  </div>
+</Page>
+
+<script>
+  import '../scripts/screenshots';
+</script>
+
+<style>
+  .shots {
+    padding-bottom: var(--section-pad);
+  }
+
+  .shots__bar {
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 20;
+    padding-block: var(--s-3);
+    background: var(--m-bar);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+  }
+
+  .shots__switcher {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s-2);
+  }
+
+  .shots__label {
+    color: var(--c-text-2);
+    font-size: var(--t-caption);
+    font-weight: 500;
+  }
+
+  @media (min-width: 834px) {
+    .shots__switcher {
+      flex-direction: row;
+      justify-content: center;
+      gap: var(--s-4);
+    }
+  }
+
+  /* Before a choice is made, only the clients for the detected system show. */
+  .shots:not([data-show]):has(.shot-group[data-detected]) .shot-group:not([data-detected]) {
+    display: none;
+  }
+
+  .shot-group {
+    scroll-margin-top: calc(var(--nav-h) + 64px);
+  }
+
+  .shot-group__head {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    margin-bottom: var(--s-6);
+  }
+
+  .shot-group__title {
+    font-size: var(--t-title-2);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: var(--tr-title);
+  }
+
+  .shot-group__platform {
+    color: var(--c-text-2);
+    font-size: var(--t-subhead);
+  }
+</style>

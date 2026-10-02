@@ -4,6 +4,9 @@ import { zh } from './zh';
 
 export type Locale = 'zh' | 'en';
 
+export type HighlightId = 'translate' | 'filter' | 'repeat' | 'pangu' | 'sponsored' | 'backup';
+export type PrivacySectionId = 'scope' | 'data' | 'app' | 'services' | 'website' | 'changes';
+
 export interface Dict {
   htmlLang: string;
   ogLocale: string;
@@ -17,7 +20,7 @@ export interface Dict {
     version: string;
     items: Record<ProductId, { platform: string; tagline: string }>;
   };
-  features: { title: string; lead: string; items: { title: string; body: string }[] };
+  features: { title: string; lead: string; items: { id: HighlightId; title: string; body: string }[] };
   featureList: {
     title: string;
     description: string;
@@ -34,11 +37,10 @@ export interface Dict {
     updated: string;
     intro: string;
     telegramPolicy: string;
-    sections: { title: string; body: string[] }[];
+    sections: { id: PrivacySectionId; title: string; body: string[] }[];
     contact: { title: string; body: string; link: string };
   };
   release: {
-    loading: string;
     unavailable: string;
     noRelease: string;
     releasesPage: string;
@@ -59,6 +61,21 @@ export interface Dict {
     disclaimer: string;
   };
   notFound: { title: string; body: string; home: string };
+  // Interface labels that are not part of the page copy.
+  ui: {
+    skipToContent: string;
+    mainNav: string;
+    menu: string;
+    otherPlatforms: string;
+    seeAllFeatures: string;
+    seeAllScreenshots: string;
+    pause: string;
+    play: string;
+    previous: string;
+    next: string;
+    onThisPage: string;
+    breadcrumb: string;
+  };
 }
 
 export const dicts: Record<Locale, Dict> = { zh, en };

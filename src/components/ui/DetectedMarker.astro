@@ -1,0 +1,6 @@
+---
+import { compactScript } from '../../lib/inline-script';
+import markDetected from '../../scripts/mark-detected.js?raw';
+---
+
+<script is:inline set:html={compactScript(markDetected)} />

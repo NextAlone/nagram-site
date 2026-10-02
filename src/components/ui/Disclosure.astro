@@ -1,0 +1,72 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Icon from './Icon.astro';
+
+interface Props extends HTMLAttributes<'details'> {
+  open?: boolean;
+}
+
+const { open = false, class: className, ...rest } = Astro.props;
+---
+
+<details class:list={['disclosure', className]} open={open} {...rest}>
+  <summary class="disclosure__summary">
+    <slot name="summary" />
+    <Icon name="chevron-down" class="disclosure__chevron" stroke={2.25} />
+  </summary>
+  <div class="disclosure__body">
+    <slot />
+  </div>
+</details>
+
+<style>
+  .disclosure {
+    border-radius: var(--r-l);
+    background: var(--tile-bg, var(--c-bg-alt));
+    box-shadow: var(--ring-tile);
+  }
+
+  .disclosure__summary {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    min-height: 64px;
+    padding: var(--s-3) var(--s-5);
+    list-style: none;
+    border-radius: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .disclosure__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .disclosure__chevron {
+    --icon-size: 18px;
+    margin-left: auto;
+    color: var(--c-text-3);
+    transition: transform var(--d-base) var(--ease);
+  }
+
+  .disclosure[open] .disclosure__chevron {
+    transform: rotate(180deg);
+  }
+
+  .disclosure::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      block-size var(--d-base) var(--ease),
+      content-visibility var(--d-base) allow-discrete;
+  }
+
+  .disclosure[open]::details-content {
+    block-size: auto;
+  }
+
+  @media (hover: hover) {
+    .disclosure__summary:hover .disclosure__chevron {
+      color: var(--c-text-2);
+    }
+  }
+</style>

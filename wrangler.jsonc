@@ -1,20 +1,8 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
+  // A Cloudflare Pages project without Functions: dist/ is entirely static,
+  // including _headers and the _redirects the build writes for /download/*.
   "name": "nagram-site",
-  "main": "./worker/index.ts",
-  "compatibility_date": "2026-10-01",
-  // Kept explicit so that adding a custom domain does not switch workers.dev off.
-  "workers_dev": true,
-  // A zone route rather than a custom domain: the zone already has proxied
-  // apex records, which a custom domain would require deleting first.
-  "routes": [{ "pattern": "nagram.app/*", "zone_name": "nagram.app" }],
-  "assets": {
-    "directory": "./dist",
-    "not_found_handling": "404-page",
-    // Static pages are served straight from assets; only these paths reach the Worker.
-    "run_worker_first": ["/api/*", "/download/*"]
-  },
-  "observability": {
-    "enabled": true
-  }
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-10-01"
 }

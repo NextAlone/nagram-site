@@ -45,26 +45,32 @@ export const zh: Dict = {
     lead: '以下功能在 Nagram 的 Android、iOS 与桌面端均已实现，入口和细节随平台略有不同。',
     items: [
       {
+        id: 'translate',
         title: '多引擎翻译',
         body: '可选 Google、Microsoft、Yandex 等翻译服务，也可以接入自己的大模型接口并自定义提示词。',
       },
       {
+        id: 'filter',
         title: '消息过滤',
         body: '用关键词或正则表达式匹配消息，将其遮盖、折叠或隐藏。',
       },
       {
+        id: 'repeat',
         title: '复读与无引用转发',
         body: '一步复读消息，或在转发时不带来源。',
       },
       {
+        id: 'pangu',
         title: '盘古之白',
         body: '在发送、编辑或阅读时，自动为中文与英文、数字之间补上空格。',
       },
       {
+        id: 'sponsored',
         title: '隐藏赞助消息',
         body: '不再显示频道中的赞助消息。',
       },
       {
+        id: 'backup',
         title: '设置备份与同步',
         body: '导出或同步增强设置，换设备时不必重新配置。',
       },
@@ -101,24 +107,28 @@ export const zh: Dict = {
     telegramPolicy: 'Telegram 的隐私政策见',
     sections: [
       {
+        id: 'scope',
         title: '适用范围',
         body: [
           '本政策适用于 Nagram 客户端应用本身以及本网站。当你使用 Nagram 连接 Telegram 时，你对 Telegram 服务的使用受 Telegram 自身的条款与隐私做法约束。',
         ],
       },
       {
+        id: 'data',
         title: '数据收集',
         body: [
           'Nagram 不运营独立的消息服务，它只是一个 Telegram 客户端。经由 Telegram 处理的账号、消息、联系人、媒体或云端数据，均适用 Telegram 的隐私政策。',
         ],
       },
       {
+        id: 'app',
         title: '应用功能',
         body: [
           '为提供正常的客户端功能，Nagram 可能在你的设备上保存应用偏好和本地设置。这些本地设置仅供应用使用，并不是另一份 Telegram 账号数据库。',
         ],
       },
       {
+        id: 'services',
         title: '第三方服务',
         body: [
           '由于 Nagram 连接的是 Telegram，账号与消息功能涉及的主要第三方服务就是 Telegram。Telegram 如何处理数据，请查阅其隐私政策。',
@@ -126,12 +136,14 @@ export const zh: Dict = {
         ],
       },
       {
+        id: 'website',
         title: '本网站',
         body: [
           '本网站不设置 Cookie，也不加载广告脚本。网站托管在 Cloudflare，为了提供访问，Cloudflare 会处理 IP 地址等技术性请求数据。本网站使用 Cloudflare Web Analytics 统计访问量，它不使用 Cookie，也不跨站追踪访客。下载链接指向 GitHub、App Store、TestFlight 或 Telegram，它们各自适用自己的隐私政策。',
         ],
       },
       {
+        id: 'changes',
         title: '政策变更',
         body: ['如果 Nagram 的隐私做法发生变化，或引入了新的服务，本页面可能会更新。'],
       },
@@ -143,7 +155,6 @@ export const zh: Dict = {
     },
   },
   release: {
-    loading: '正在获取版本信息…',
     unavailable: '无法获取版本信息',
     noRelease: '暂无发布版本',
     releasesPage: 'Releases 页面',
@@ -166,4 +177,18 @@ export const zh: Dict = {
       'Nagram 是独立的第三方客户端，与 Telegram 官方（Telegram FZ-LLC 及其关联方）没有隶属、赞助或背书关系。Telegram 是其各自权利人的商标。',
   },
   notFound: { title: '页面不存在', body: '这个地址没有内容。', home: '返回首页' },
+  ui: {
+    skipToContent: '跳到正文',
+    mainNav: '主导航',
+    menu: '菜单',
+    otherPlatforms: '其他平台',
+    seeAllFeatures: '查看完整功能列表',
+    seeAllScreenshots: '查看全部截图',
+    pause: '暂停',
+    play: '播放',
+    previous: '上一张',
+    next: '下一张',
+    onThisPage: '本页内容',
+    breadcrumb: '页面路径',
+  },
 };

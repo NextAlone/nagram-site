@@ -1,0 +1,50 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { ICONS, type IconName } from '../../icons';
+
+interface Props extends Omit<HTMLAttributes<'svg'>, 'name' | 'stroke'> {
+  name: IconName;
+  // Any CSS length; defaults to the surrounding font size.
+  size?: string;
+  stroke?: number;
+  // Gives the icon an accessible name; without it the icon is decorative.
+  label?: string;
+}
+
+const { name, size, stroke = 1.75, label, class: className, style, ...rest } = Astro.props;
+const node = ICONS[name];
+const sizeStyle = size ? `--icon-size:${size}` : undefined;
+const mergedStyle = sizeStyle && typeof style === 'string' ? `${sizeStyle};${style}` : (sizeStyle ?? style);
+---
+
+<svg
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={stroke}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class:list={['icon', className]}
+  style={mergedStyle}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  focusable="false"
+  {...rest}
+>
+  {
+    node.map(([tag, attrs]) => {
+      const Tag = tag;
+      return <Tag {...attrs} />;
+    })
+  }
+</svg>
+
+<style>
+  .icon {
+    flex: none;
+    width: var(--icon-size, 1em);
+    height: var(--icon-size, 1em);
+    overflow: visible;
+  }
+</style>

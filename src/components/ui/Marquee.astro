@@ -1,0 +1,176 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Icon from './Icon.astro';
+
+interface Props extends HTMLAttributes<'div'> {
+  // Accessible name of the list of items.
+  label: string;
+  // Number of items; with perItem it sets the length of one loop.
+  count: number;
+  // Seconds each item takes to travel its own width.
+  perItem?: number;
+  gap?: string;
+  labels: { pause: string; play: string };
+}
+
+const {
+  label,
+  count,
+  perItem = 8,
+  gap = 'var(--s-5)',
+  labels,
+  class: className,
+  style,
+  ...rest
+} = Astro.props;
+// The items run twice in a row so the loop has no seam; the copy is hidden
+// from assistive technology and cannot take focus.
+const items = await Astro.slots.render('default');
+const vars = `--marquee-gap:${gap};--marquee-duration:${count * perItem}s`;
+---
+
+<div
+  class:list={['marquee', className]}
+  style={typeof style === 'string' ? `${vars};${style}` : vars}
+  data-marquee
+  {...rest}
+>
+  <div class="marquee__viewport">
+    <div class="marquee__track">
+      <ul class="marquee__set" role="list" aria-label={label}>
+        <Fragment set:html={items} />
+      </ul>
+      <ul class="marquee__set marquee__set--copy" role="list" aria-hidden="true" inert>
+        <Fragment set:html={items} />
+      </ul>
+    </div>
+  </div>
+  <div class="marquee__controls container">
+    <button
+      type="button"
+      class="marquee__toggle"
+      aria-label={labels.pause}
+      data-marquee-toggle
+      data-label-pause={labels.pause}
+      data-label-play={labels.play}
+    >
+      <Icon name="pause" class="marquee__glyph marquee__glyph--pause" />
+      <Icon name="play" class="marquee__glyph marquee__glyph--play" />
+    </button>
+  </div>
+</div>
+
+<script>
+  import '../../scripts/marquee';
+</script>
+
+<style>
+  .marquee {
+    --marquee-fade: clamp(20px, 7vw, 120px);
+  }
+
+  .marquee__viewport {
+    overflow: hidden;
+    padding-block: var(--s-2) var(--s-7);
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 var(--marquee-fade),
+      #000 calc(100% - var(--marquee-fade)),
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 var(--marquee-fade),
+      #000 calc(100% - var(--marquee-fade)),
+      transparent
+    );
+  }
+
+  .marquee__track,
+  .marquee__set {
+    display: flex;
+    gap: var(--marquee-gap);
+  }
+
+  .marquee__track {
+    width: max-content;
+  }
+
+  .marquee__set {
+    flex: none;
+  }
+
+  .marquee__set > :global(li) {
+    display: flex;
+    flex: none;
+  }
+
+  .marquee__controls {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .marquee__toggle {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--c-fill);
+    color: var(--c-text);
+    cursor: pointer;
+    transition: background-color var(--d-fast) var(--ease);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .marquee__toggle:hover {
+    background: var(--c-fill-strong);
+  }
+
+  .marquee__glyph {
+    --icon-size: 15px;
+    fill: currentColor;
+  }
+
+  .marquee[data-paused] .marquee__glyph--pause,
+  .marquee:not([data-paused]) .marquee__glyph--play {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .marquee__track {
+      animation: marquee var(--marquee-duration) linear infinite;
+    }
+
+    .marquee__viewport:hover .marquee__track,
+    .marquee[data-paused] .marquee__track,
+    .marquee[data-offscreen] .marquee__track {
+      animation-play-state: paused;
+    }
+  }
+
+  /* Without motion the row is a plain list that scrolls by hand. */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__viewport {
+      overflow-x: auto;
+      padding-inline: var(--gutter);
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+
+    .marquee__set--copy,
+    .marquee__controls {
+      display: none;
+    }
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translate3d(calc(-50% - var(--marquee-gap) / 2), 0, 0);
+    }
+  }
+</style>

@@ -1,0 +1,23 @@
+---
+import Hero from '../components/sections/home/Hero.astro';
+import Lineup from '../components/sections/home/Lineup.astro';
+import ScreenshotStage from '../components/sections/home/ScreenshotStage.astro';
+import Highlights from '../components/sections/shared/Highlights.astro';
+import type { Locale } from '../i18n';
+import Page from '../layouts/Page.astro';
+import { getReleases } from '../lib/releases';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const releases = await getReleases();
+---
+
+<Page locale={locale}>
+  <Hero locale={locale} releases={releases} />
+  <Highlights locale={locale} />
+  <Lineup locale={locale} releases={releases} />
+  <ScreenshotStage locale={locale} />
+</Page>

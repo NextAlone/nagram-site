@@ -1,0 +1,52 @@
+---
+import { HIGHLIGHT_GLYPHS } from '../../../data/glyphs';
+import { dicts, localePath, type Locale } from '../../../i18n';
+import Headline from '../../ui/Headline.astro';
+import Marquee from '../../ui/Marquee.astro';
+import Section from '../../ui/Section.astro';
+import TextLink from '../../ui/TextLink.astro';
+import FeatureCard from './FeatureCard.astro';
+
+interface Props {
+  locale: Locale;
+  tone?: 'base' | 'alt';
+  // Link to the full feature list; off on the feature list itself.
+  linkToList?: boolean;
+  headlineSize?: 'display' | 'title';
+}
+
+const { locale, tone = 'alt', linkToList = true, headlineSize = 'display' } = Astro.props;
+const t = dicts[locale];
+const items = t.features.items;
+---
+
+<Section tone={tone} class="highlights" aria-labelledby="highlights-title">
+  <Headline title={t.features.title} titleId="highlights-title" lead={t.features.lead} size={headlineSize}>
+    {linkToList && <TextLink href={localePath(locale, 'features/')}>{t.ui.seeAllFeatures}</TextLink>}
+  </Headline>
+  <Marquee
+    slot="bleed"
+    label={t.features.title}
+    count={items.length}
+    perItem={9}
+    labels={{ pause: t.ui.pause, play: t.ui.play }}
+  >
+    {
+      items.map((item) => (
+        <li class="highlights__item">
+          <FeatureCard glyph={HIGHLIGHT_GLYPHS[item.id]} title={item.title} body={item.body} />
+        </li>
+      ))
+    }
+  </Marquee>
+</Section>
+
+<style>
+  .highlights {
+    padding-bottom: calc(var(--section-pad) * 0.7);
+  }
+
+  .highlights__item {
+    width: clamp(280px, 78vw, 372px);
+  }
+</style>
