@@ -128,7 +128,7 @@ export const zh: Dict = {
       {
         title: '本网站',
         body: [
-          '本网站不设置 Cookie，也不加载统计或广告脚本。网站托管在 Cloudflare，为了提供访问，Cloudflare 会处理 IP 地址等技术性请求数据。下载链接指向 GitHub、App Store、TestFlight 或 Telegram，它们各自适用自己的隐私政策。',
+          '本网站不设置 Cookie，也不加载广告脚本。网站托管在 Cloudflare，为了提供访问，Cloudflare 会处理 IP 地址等技术性请求数据。本网站使用 Cloudflare Web Analytics 统计访问量，它不使用 Cookie，也不跨站追踪访客。下载链接指向 GitHub、App Store、TestFlight 或 Telegram，它们各自适用自己的隐私政策。',
         ],
       },
       {

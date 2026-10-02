@@ -128,7 +128,7 @@ export const en: Dict = {
       {
         title: 'This Website',
         body: [
-          'This website sets no cookies and loads no analytics or advertising scripts. It is hosted on Cloudflare, which processes technical request data such as IP addresses in order to deliver the site. Download links lead to GitHub, the App Store, TestFlight or Telegram, each of which applies its own privacy policy.',
+          'This website sets no cookies and loads no advertising scripts. It is hosted on Cloudflare, which processes technical request data such as IP addresses in order to deliver the site. It uses Cloudflare Web Analytics to measure visits, which uses no cookies and does not track visitors across sites. Download links lead to GitHub, the App Store, TestFlight or Telegram, each of which applies its own privacy policy.',
         ],
       },
       {
