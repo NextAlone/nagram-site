@@ -73,7 +73,7 @@ export const en: Dict = {
   featureList: {
     title: 'Feature list',
     description: 'A comparison of the enhancements in Nagram Android, Nagram iOS, Nagram Desktop and Nnngram, grouped by translation, messages, chat list, media, interface, network and accounts.',
-    lead: 'Enhancements each client adds on top of the official Telegram apps. A check mark means the client implements it; entry points and details vary by platform.',
+    lead: 'Enhancements each client adds on top of the official Telegram apps, folded by category; select a category to expand it. A check mark means the client implements it; entry points and details vary by platform.',
     feature: 'Feature',
     supported: 'Supported',
     unsupported: 'Not supported',
@@ -82,7 +82,8 @@ export const en: Dict = {
   screenshots: {
     title: 'Screenshots',
     description: 'Screenshots of Nagram Android, Nagram iOS, Nagram Desktop and Nnngram.',
-    lead: 'Screenshots with light and dark versions follow your system theme.',
+    lead: 'The client matching your system is shown first. Screenshots with light and dark versions follow your system theme.',
+    others: 'See other clients',
     pending: 'Screenshot coming soon',
     slots: {
       'nagram-android': ['Chat list', 'Chat', 'Nagram settings'],

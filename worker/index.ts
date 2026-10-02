@@ -174,7 +174,10 @@ async function handleReleases(env: Env, ctx: ExecutionContext): Promise<Response
   return Response.json(body, {
     // Each product carries its own status; 502 only when nothing could be fetched.
     status: failed === infos.length ? 502 : 200,
-    headers: { 'Cache-Control': failed ? 'no-store' : 'public, max-age=300' },
+    headers: {
+      'Cache-Control': failed ? 'no-store' : 'public, max-age=300',
+      'X-Content-Type-Options': 'nosniff',
+    },
   });
 }
 

@@ -27,7 +27,7 @@ export interface Dict {
     unsupported: string;
     footnote: string;
   };
-  screenshots: { title: string; description: string; lead: string; pending: string; slots: Record<ProductId, string[]> };
+  screenshots: { title: string; description: string; lead: string; others: string; pending: string; slots: Record<ProductId, string[]> };
   privacy: {
     title: string;
     description: string;

@@ -73,7 +73,7 @@ export const zh: Dict = {
   featureList: {
     title: '功能列表',
     description: 'Nagram Android、Nagram iOS、Nagram Desktop 与 Nnngram 的增强功能对照表，按翻译、消息、聊天列表、媒体、界面、网络与账号分类。',
-    lead: '各端在 Telegram 官方客户端之外加入的增强功能。勾选表示该端已实现，入口与细节随平台有所不同。',
+    lead: '各端在 Telegram 官方客户端之外加入的增强功能，按类别折叠，点击类别展开。勾选表示该端已实现，入口与细节随平台有所不同。',
     feature: '功能',
     supported: '支持',
     unsupported: '不支持',
@@ -82,7 +82,8 @@ export const zh: Dict = {
   screenshots: {
     title: '截图',
     description: 'Nagram Android、Nagram iOS、Nagram Desktop 与 Nnngram 的界面截图。',
-    lead: '提供明暗两版的截图会随系统主题切换。',
+    lead: '默认显示与你当前系统对应的客户端。提供明暗两版的截图会随系统主题切换。',
+    others: '查看其他端',
     pending: '截图待补充',
     slots: {
       'nagram-android': ['聊天列表', '聊天界面', 'Nagram 设置'],

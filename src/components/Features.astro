@@ -33,9 +33,12 @@ const f = t.featureList;
     </section>
 
     {
-      FEATURE_GROUPS.map((group) => (
-        <section class="feature-group">
-          <h2>{group[locale]}</h2>
+      FEATURE_GROUPS.map((group, i) => (
+        <details class="feature-group" open={i === 0}>
+          <summary>
+            <h2>{group[locale]}</h2>
+            <span class="count">{group.rows.length}</span>
+          </summary>
           <table class="feature-table">
             <thead>
               <tr>
@@ -69,7 +72,7 @@ const f = t.featureList;
               ))}
             </tbody>
           </table>
-        </section>
+        </details>
       ))
     }
 

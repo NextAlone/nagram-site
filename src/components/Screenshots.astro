@@ -36,7 +36,7 @@ const shots = PRODUCTS.map((p) => ({
     <p class="lead">{t.screenshots.lead}</p>
     {
       shots.map((group) => (
-        <section class="shot-group">
+        <section class="shot-group" id={`shots-${group.product.id}`} data-product={group.product.id}>
           <h2>{group.product.name}</h2>
           <div class:list={['shots', { portrait: group.portrait }]}>
             {group.slots.map((s) => (
@@ -58,5 +58,21 @@ const shots = PRODUCTS.map((p) => ({
         </section>
       ))
     }
+    <nav class="shot-tabs" aria-label={t.screenshots.others}>
+      <p>{t.screenshots.others}</p>
+      <div class="toc">
+        {
+          shots.map((group) => (
+            <a href={`#shots-${group.product.id}`} data-product={group.product.id}>
+              {group.product.name}
+            </a>
+          ))
+        }
+      </div>
+    </nav>
   </main>
 </Page>
+
+<script>
+  import '../scripts/screenshots';
+</script>

@@ -680,3 +680,126 @@ h2 {
   color: var(--muted);
   font-size: 0.92rem;
 }
+
+.toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.toc a {
+  padding: 6px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.toc a:hover {
+  border-color: var(--accent);
+}
+
+.toc a[aria-current] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.shot-tabs {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.shot-tabs p {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.shot-tabs .toc {
+  margin-top: 12px;
+}
+
+.shot-group {
+  scroll-margin-top: 16px;
+}
+
+details.feature-group {
+  margin-top: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+details.feature-group summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 22px;
+  cursor: pointer;
+  list-style: none;
+}
+
+details.feature-group summary::-webkit-details-marker {
+  display: none;
+}
+
+details.feature-group summary::after {
+  content: '';
+  width: 9px;
+  height: 9px;
+  margin-left: auto;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg);
+  transition: transform 0.15s;
+}
+
+details.feature-group[open] summary::after {
+  transform: rotate(-135deg);
+}
+
+details.feature-group h2 {
+  font-size: 1.2rem;
+}
+
+details.feature-group .count {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+details.feature-group .feature-table {
+  width: calc(100% - 44px);
+  margin: 0 22px 14px;
+}
+
+details.feature-group .feature-table thead th {
+  background: var(--surface);
+}
+
+details.feature-group tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.feature-group + details.feature-group {
+  margin-top: 14px;
+}
+
+section.feature-group + details.feature-group {
+  margin-top: 48px;
+}
+
+@media (max-width: 640px) {
+  details.feature-group summary {
+    padding: 14px 14px;
+  }
+
+  details.feature-group .feature-table {
+    width: calc(100% - 28px);
+    margin-inline: 14px;
+  }
+}
