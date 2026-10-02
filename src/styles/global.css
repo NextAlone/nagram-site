@@ -38,6 +38,13 @@
   }
 }
 
+@media (prefers-color-scheme: dark) {
+  /* Tux has a black body, which needs a light edge on dark surfaces. */
+  .platform-icon.linux {
+    filter: drop-shadow(0 0 1px rgb(255 255 255 / 0.75));
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -231,6 +238,10 @@ h1 span {
 
 .platform-icon.android {
   color: #3ddc84;
+}
+
+.platform-icon.linux {
+  object-fit: contain;
 }
 
 .btn {
@@ -623,7 +634,8 @@ h2 {
 }
 
 .feature-table .no {
-  color: var(--border);
+  color: var(--muted);
+  opacity: 0.55;
 }
 
 .feature-footnote {

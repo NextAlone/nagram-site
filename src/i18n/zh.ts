@@ -160,7 +160,7 @@ export const zh: Dict = {
     license: '许可',
     privacy: '隐私政策',
     licenseBody:
-      'Nagram Android 与 Nagram Desktop 以 GPL-3.0 发布，Nnngram 以 GPL-2.0 发布。Nagram iOS 中的上游与第三方组件继续适用各自的许可。Nagram 名称与项目标识归 NextAlone 所有，应用图标版权归 MaitungTM 所有，不随源码许可授权。',
+      'Nagram Android 与 Nagram Desktop 以 GPL-3.0 发布，Nnngram 以 GPL-2.0 发布。Nagram iOS 中的上游与第三方组件继续适用各自的许可。Nagram 名称与项目标识归 NextAlone 所有，应用图标版权归 MaitungTM 所有，不随源码许可授权。Linux 企鹅 Tux 由 Larry Ewing 使用 The GIMP 创作。',
     disclaimer:
       'Nagram 是独立的第三方客户端，与 Telegram 官方（Telegram FZ-LLC 及其关联方）没有隶属、赞助或背书关系。Telegram 是其各自权利人的商标。',
   },

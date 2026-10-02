@@ -160,7 +160,7 @@ export const en: Dict = {
     license: 'License',
     privacy: 'Privacy policy',
     licenseBody:
-      'Nagram Android and Nagram Desktop are released under GPL-3.0, Nnngram under GPL-2.0. Upstream and third-party components in Nagram iOS remain under their own licenses. The Nagram name and project identity belong to NextAlone and the app icon artwork is copyright MaitungTM; neither is licensed with the source code.',
+      'Nagram Android and Nagram Desktop are released under GPL-3.0, Nnngram under GPL-2.0. Upstream and third-party components in Nagram iOS remain under their own licenses. The Nagram name and project identity belong to NextAlone and the app icon artwork is copyright MaitungTM; neither is licensed with the source code. Tux, the Linux penguin, was created by Larry Ewing using The GIMP.',
     disclaimer:
       'Nagram is an independent third-party client. It is not affiliated with, sponsored by or endorsed by Telegram (Telegram FZ-LLC and its affiliates). Telegram is a trademark of its respective owner.',
   },
