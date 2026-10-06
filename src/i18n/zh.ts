@@ -32,7 +32,7 @@ export const zh: Dict = {
       },
       'nagram-desktop': {
         platform: 'Windows · macOS · Linux',
-        tagline: '基于 Telegram Desktop。目前提供各平台的 CI 构建，下载构建产物需登录 GitHub。',
+        tagline: '基于 Telegram Desktop。安装包发布在 GitHub Releases，下载按钮打开最新版本的发布页。',
       },
       nnngram: {
         platform: 'Android 8.1 及以上 · arm64-v8a',

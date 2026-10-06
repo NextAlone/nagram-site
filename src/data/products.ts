@@ -1,23 +1,20 @@
 // Shared by the Astro pages and the Worker: where each product is released
-// and how a download platform maps to a release asset, CI workflow or page.
+// and how a download platform maps to a release asset or page.
 
 export type ProductId = 'nagram-android' | 'nagram-ios' | 'nagram-desktop' | 'nnngram';
 
 export type ReleaseSource =
   | { type: 'github'; repo: string }
   | { type: 'appstore'; appId: string }
-  // Latest successful run of a CI workflow on the default branch, per platform.
-  | { type: 'actions'; repo: string }
   // Builds are only posted to a Telegram channel; there is no version to look up.
   | { type: 'channel'; url: string };
 
 export interface DownloadTarget {
   platform: string;
   label: string;
-  // Matched against GitHub release asset names (github sources).
+  // Matched against GitHub release asset names. A github target without a
+  // pattern links to the latest release page instead of a single file.
   asset?: RegExp;
-  // Workflow file whose latest successful run is linked (actions sources).
-  workflow?: string;
 }
 
 export type LinkKind = 'testflight' | 'beta';
@@ -64,11 +61,11 @@ export const PRODUCTS: Product[] = [
     icon: '/icons/nagram.png',
     repo: 'NextAlone/Nagram-qt',
     license: 'GPL-3.0',
-    source: { type: 'actions', repo: 'NextAlone/Nagram-qt' },
+    source: { type: 'github', repo: 'NextAlone/Nagram-qt' },
     downloads: [
-      { platform: 'windows', label: 'Windows', workflow: 'nagram-win.yml' },
-      { platform: 'macos', label: 'macOS', workflow: 'nagram-mac.yml' },
-      { platform: 'linux', label: 'Linux', workflow: 'nagram-linux.yml' },
+      { platform: 'windows', label: 'Windows' },
+      { platform: 'macos', label: 'macOS' },
+      { platform: 'linux', label: 'Linux' },
     ],
   },
   {
@@ -94,8 +91,6 @@ export const releasesPageUrl = (product: Product) => {
   switch (source.type) {
     case 'appstore':
       return appStoreUrl(source.appId);
-    case 'actions':
-      return `${repoUrl(source.repo)}/actions`;
     case 'channel':
       return source.url;
     case 'github':

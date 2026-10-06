@@ -59,49 +59,25 @@ async function fetchGithub(product: Product, repo: string, env: Env): Promise<Re
 
   const downloads: Extract<ReleaseInfo, { status: 'ok' }>['downloads'] = {};
   for (const target of product.downloads) {
-    const asset = latest.assets.find((a) => target.asset?.test(a.name));
+    if (!target.asset) {
+      downloads[target.platform] = { name: latest.tag_name, url: latest.html_url, size: null };
+      continue;
+    }
+    const pattern = target.asset;
+    const asset = latest.assets.find((a) => pattern.test(a.name));
     if (asset) {
       downloads[target.platform] = { name: asset.name, url: asset.browser_download_url, size: asset.size };
     }
   }
+  // Some repositories put the version in the release name, others only in the tag.
+  const version = latest.name && /^v?\d/.test(latest.name) ? latest.name : latest.tag_name;
   return {
     status: 'ok',
-    version: (latest.name || latest.tag_name).replace(/^v/i, ''),
+    version: version.replace(/^v/i, ''),
     publishedAt: latest.published_at,
     pageUrl: latest.html_url,
     downloads,
   };
-}
-
-interface WorkflowRuns {
-  workflow_runs: { html_url: string; created_at: string }[];
-}
-
-async function fetchActions(product: Product, repo: string, env: Env): Promise<ReleaseInfo> {
-  const pageUrl = releasesPageUrl(product);
-  const targets = product.downloads.filter((t) => t.workflow);
-  const responses = await Promise.all(
-    targets.map((t) =>
-      fetch(
-        `https://api.github.com/repos/${repo}/actions/workflows/${t.workflow}/runs?status=success&per_page=1`,
-        { headers: githubHeaders(env) },
-      ),
-    ),
-  );
-  const failed = responses.find((r) => !r.ok);
-  if (failed) return { status: 'error', error: githubError(failed), pageUrl };
-
-  const downloads: Extract<ReleaseInfo, { status: 'ok' }>['downloads'] = {};
-  let latest: string | null = null;
-  for (const [i, res] of responses.entries()) {
-    const run = ((await res.json()) as WorkflowRuns).workflow_runs[0];
-    if (!run) continue;
-    downloads[targets[i].platform] = { name: targets[i].workflow!, url: run.html_url, size: null };
-    if (!latest || run.created_at > latest) latest = run.created_at;
-  }
-  if (!latest) return { status: 'no_release', pageUrl };
-  // CI builds carry no version number, so the date of the newest run stands in for it.
-  return { status: 'ok', version: `CI ${latest.slice(0, 10)}`, publishedAt: latest, pageUrl, downloads };
 }
 
 async function fetchAppStore(product: Product, appId: string): Promise<ReleaseInfo> {
@@ -132,8 +108,6 @@ function fetchRelease(product: Product, source: FetchedSource, env: Env): Promis
   switch (source.type) {
     case 'github':
       return fetchGithub(product, source.repo, env);
-    case 'actions':
-      return fetchActions(product, source.repo, env);
     case 'appstore':
       return fetchAppStore(product, source.appId);
   }

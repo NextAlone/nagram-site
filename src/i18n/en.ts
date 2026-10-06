@@ -32,7 +32,7 @@ export const en: Dict = {
       },
       'nagram-desktop': {
         platform: 'Windows · macOS · Linux',
-        tagline: 'Based on Telegram Desktop. CI builds are available for each platform; downloading them requires a GitHub login.',
+        tagline: 'Based on Telegram Desktop. Installers are published on GitHub Releases; the download buttons open the latest release page.',
       },
       nnngram: {
         platform: 'Android 8.1 or later · arm64-v8a',

@@ -15,8 +15,8 @@ Nagram 系列（Nagram Android、Nagram iOS、Nagram Desktop、Nnngram）的宣�
 
 ## Worker 路由
 
-- `GET /api/releases`：返回每个产品的 `status`（`ok`、`no_release`、`error`）、版本号与资源直链。Nagram Android 读取 GitHub Releases API，Nagram iOS 读取 App Store lookup API，Nagram Desktop 读取三个 CI workflow（`nagram-win.yml`、`nagram-mac.yml`、`nagram-linux.yml`）最近一次成功运行，版本号以最新运行日期 `CI YYYY-MM-DD` 代替。Nnngram 只在 Telegram 频道发布，状态固定为 `external`，不查询上游。成功结果在边缘缓存 10 分钟，失败结果缓存 1 分钟且始终以 `error` 返回，不回退到旧数据；全部失败时状态码为 502。
-- `GET /download/<platform>`：302 到对应资源：`android`、`android-armv7` 到 Release 里的 APK，`ios` 到 App Store，`windows`、`macos`、`linux` 到对应 workflow 最近一次成功的 Actions 运行页面，`nnngram` 到 Telegram 频道。平台：`android`、`android-armv7`、`ios`、`windows`、`macos`、`linux`、`nnngram`。没有直链时跳到 Releases 页面，并用 `X-Nagram-Fallback` 响应头说明原因（`no_release`、`no_asset`、`error`）。
+- `GET /api/releases`：返回每个产品的 `status`（`ok`、`no_release`、`error`）、版本号与资源直链。Nagram Android 与 Nagram Desktop 读取 GitHub Releases API，Nagram iOS 读取 App Store lookup API。Nnngram 只在 Telegram 频道发布，状态固定为 `external`，不查询上游。成功结果在边缘缓存 10 分钟，失败结果缓存 1 分钟且始终以 `error` 返回，不回退到旧数据；全部失败时状态码为 502。
+- `GET /download/<platform>`：302 到对应资源：`android`、`android-armv7` 到 Release 里的 APK，`ios` 到 App Store，`windows`、`macos`、`linux` 到 Nagram Desktop 最新 Release 的页面，`nnngram` 到 Telegram 频道。平台：`android`、`android-armv7`、`ios`、`windows`、`macos`、`linux`、`nnngram`。没有直链时跳到 Releases 页面，并用 `X-Nagram-Fallback` 响应头说明原因（`no_release`、`no_asset`、`error`）。
 
 GitHub 未认证请求按出口 IP 限制为每小时 60 次，Workers 的出口 IP 与其他租户共用，生产环境建议配置只读的 `GITHUB_TOKEN` secret。
 
